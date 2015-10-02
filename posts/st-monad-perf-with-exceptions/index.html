@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+
+
+ <!-- Global site tag (gtag.js) - Google Analytics -->
+ <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35403825-1"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+
+    gtag('config', 'UA-35403825-1');
+ </script>
+
+
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" as="font" href="https://blog.aloni.org/fonts/vendor/jost/jost-v4-latin-regular.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="https://blog.aloni.org/fonts/vendor/jost/jost-v4-latin-700.woff2"  type="font/woff2" crossorigin>
+
+
+<link rel="stylesheet" href="https://blog.aloni.org/main.css">
+
+
+
+  
+  
+  
+  
+  
+    
+  
+
+  
+  
+    
+    
+  
+  
+  
+    
+  
+  
+  
+  
+    
+  
+  
+  
+
+
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+
+	
+
+
+	
+
+<title>Performance of the ST Monad with Pure Exceptions | Dan Aloni</title>
+<meta name="description" content="Dan Aloni">
+<link rel="canonical" href="https://blog.aloni.org/posts/st-monad-perf-with-exceptions/">
+
+
+
+
+
+
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+          {
+            "@type": "ListItem",
+            "position":  1 ,
+            "name": "Home",
+            "item": "https://blog.aloni.org/"
+          },
+          
+          
+          {
+            "@type": "ListItem",
+            "position":  2 ,
+            "name": "Posts",
+            "item": "https://blog.aloni.org/posts/"
+          },
+        
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+          
+          
+          {
+            "@type": "ListItem",
+            "position":  3 ,
+            "name": "St Monad Perf With Exceptions",
+            "item": "https://blog.aloni.org/posts/st-monad-perf-with-exceptions/"
+          },
+        
+      
+    
+  }
+</script>
+
+
+
+
+
+  <meta name="theme-color" content="#fff">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://blog.aloni.org/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://blog.aloni.org/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://blog.aloni.org/favicon-16x16.png">
+  
+    <link rel="manifest" href="https://blog.aloni.org/site.webmanifest">
+  
+
+
+  
+    
+      <!-- KaTeX -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    
+  
+
+</head>
+
+  
+
+
+<body class="blog single">
+  
+  
+<div class="header-bar fixed-top"></div>
+<header class="navbar fixed-top navbar-expand-md navbar-light">
+	<div class="container">
+		<input class="menu-btn order-0" type="checkbox" id="menu-btn">
+		<label class="menu-icon d-md-none" for="menu-btn"><span class="navicon"></span></label>
+		<a class="navbar-brand order-1 order-md-0 me-auto" href="https://blog.aloni.org">Dan Aloni</a>
+		<button id="mode" class="btn btn-link order-2 order-md-4" type="button" aria-label="Toggle mode">
+			<span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+			<span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+		</button>
+		<button id="code-mode" class="btn btn-link order-2 order-md-4" type="button" aria-label="Toggle mode">
+			<span class="code-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="30" viewBox="-2 0 28 36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+			    <text x="-2" y="34" font-size="10" stroke-width="1" font-family="Jose" font-weight="100">CODE</text>
+  		        </svg></span>
+			<span class="code-toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="30" viewBox="-2 0 28 36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+			    <text x="-2" y="34" font-size="10" stroke-width="1" font-family="Jose" font-weight="100">CODE</text>
+			</svg></span>
+		</button>
+		<ul class="navbar-nav fork-me order-3 order-md-5">
+			
+				
+					<li class="nav-item">
+						<a class="nav-link" href="/atom.xml"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-rss" viewBox="0 0 16 16"> <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/> <path d="M5.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-3-8.5a1 1 0 0 1 1-1c5.523 0 10 4.477 10 10a1 1 0 1 1-2 0 8 8 0 0 0-8-8 1 1 0 0 1-1-1zm0 4a1 1 0 0 1 1-1 6 6 0 0 1 6 6 1 1 0 1 1-2 0 4 4 0 0 0-4-4 1 1 0 0 1-1-1z"/> </svg><span class="ms-2 visually-hidden">RSS</span></a>
+					</li>
+				
+					<li class="nav-item">
+						<a class="nav-link" href="https://twitter.com/DanAloni"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg><span class="ms-2 visually-hidden">Twitter</span></a>
+					</li>
+				
+					<li class="nav-item">
+						<a class="nav-link" href="https://github.com/da-x"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg><span class="ms-2 visually-hidden">GitHub</span></a>
+					</li>
+				
+			
+		</ul>
+		<div class="collapse navbar-collapse order-4 order-md-1">
+			<ul class="navbar-nav main-nav me-auto order-5 order-md-2">
+				
+					
+						<li class="nav-item">
+							<a class="nav-link" href="https://blog.aloni.org/pages/about/intro/">Pages</a>
+						</li>
+					
+						<li class="nav-item">
+							<a class="nav-link" href="https://blog.aloni.org/posts/">Recent</a>
+						</li>
+					
+						<li class="nav-item">
+							<a class="nav-link" href="https://blog.aloni.org/archive/">Archive</a>
+						</li>
+					
+
+				
+			</ul>
+			<div class="break order-6 d-md-none"></div>
+			
+		</div>
+	</div>
+</header>
+
+
+
+  
+<div class="wrap container" role="document">
+  <div class="content">
+    <div class="row justify-content-center">
+      <div class="col-md-14 col-lg-12 col-xl-10">
+        <article>
+          <div class="blog-header">
+            <h1>Performance of the ST Monad with Pure Exceptions</h1>
+            
+<p><small>Posted February 20, 2016&nbsp;&hyphen;&nbsp;<strong>8&nbsp;min read</strong></small><p>
+
+          </div>
+          
+          <p>The <span class='external-link-outer'><a class="external-link"rel="noopener" target="_blank" href="https://wiki.haskell.org/Monad/ST">ST Monad<span class='external-link-no-underline'></span><svg width='13.5' height='13.5' aria-hidden='true' viewBox='0 0 24 24' class='iconExternalLink_wgqa'><path fill='currentColor' d='M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z'></path></svg></a></span> provides a venerable method in Haskell for writing stateful imperative code. Writing such code, in contrast to the non-stateful approach, is sometimes better. Some algorithms are better understood or better illustrated with states, and another reason is increased performance. The difference between <code>ST</code> and <code>IO</code> is important, because when we implement an algorithm, we only want to deal with the internal states and not bother with side effects that don't belong to it. Allowing stateful algorithm to remain pure under <code>ST</code>, gives way to better code generation by the compiler.</p>
+<span id="continue-reading"></span>
+<p>Some algorithms are better written with <span class='external-link-outer'><a class="external-link"rel="noopener" target="_blank" href="https://wiki.haskell.org/Exception">Exceptions<span class='external-link-no-underline'></span><svg width='13.5' height='13.5' aria-hidden='true' viewBox='0 0 24 24' class='iconExternalLink_wgqa'><path fill='currentColor' d='M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z'></path></svg></a></span>. For example, an algorithm for validating an expression tree may be such one. However, one needs to be aware that exceptions in pure code can only be caught in <code>IO</code>, unless <span class='external-link-outer'><a class="external-link"rel="noopener" target="_blank" href="https://hackage.haskell.org/package/exceptions">pure exceptions<span class='external-link-no-underline'></span><svg width='13.5' height='13.5' aria-hidden='true' viewBox='0 0 24 24' class='iconExternalLink_wgqa'><path fill='currentColor' d='M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z'></path></svg></a></span> are used. We can use these pure exceptions under a <span class='external-link-outer'><a class="external-link"rel="noopener" target="_blank" href="http://book.realworldhaskell.org/read/monad-transformers.html">monad transformer<span class='external-link-no-underline'></span><svg width='13.5' height='13.5' aria-hidden='true' viewBox='0 0 24 24' class='iconExternalLink_wgqa'><path fill='currentColor' d='M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z'></path></svg></a></span>, but then we need to verify that there was no significant loss in performance. We suspect that the <code>CatchT</code> transformer would provide us a zero-cost abstraction, being a <code>newtype</code>. But how well would GHC succeed in optimizing away the transformations?</p>
+<h2 id="fibonacci-that-throws-for-kicks">Fibonacci that throws, for kicks</h2>
+<p>First, let us look at the example for <code>ST</code> brought from the <span class='external-link-outer'><a class="external-link"rel="noopener" target="_blank" href="https://wiki.haskell.org/Monad/ST">Haskell Wiki<span class='external-link-no-underline'></span><svg width='13.5' height='13.5' aria-hidden='true' viewBox='0 0 24 24' class='iconExternalLink_wgqa'><path fill='currentColor' d='M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z'></path></svg></a></span>, which presents us with the stateful implementation of computing the n-th Fibonacci number:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta function type-declaration haskell"><span class="entity name function haskell">fibST</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">Integer</span> <span class="keyword other arrow haskell">-&gt;</span> <span class="storage type haskell">Integer</span>
+</span>fibST n <span class="keyword operator haskell">=</span>
+    <span class="keyword control haskell">if</span> n <span class="keyword operator haskell">&lt;</span> <span class="constant numeric integer decimal haskell">2</span>
+        <span class="keyword control haskell">then</span> n
+        <span class="keyword control haskell">else</span> runST <span class="keyword operator haskell">$</span> <span class="keyword control haskell">do</span> x <span class="keyword operator haskell">&lt;-</span> newSTRef <span class="constant numeric integer decimal haskell">0</span>
+                        y <span class="keyword operator haskell">&lt;-</span> newSTRef <span class="constant numeric integer decimal haskell">1</span>
+                        fibST&#39; n x y
+
+    <span class="keyword other haskell">where</span> fibST&#39; <span class="constant numeric integer decimal haskell">0</span> x _ <span class="keyword operator haskell">=</span> readSTRef x
+          fibST&#39; n&#39; x y <span class="keyword operator haskell">=</span> <span class="keyword control haskell">do</span>
+              x&#39; <span class="keyword operator haskell">&lt;-</span> readSTRef x
+              y&#39; <span class="keyword operator haskell">&lt;-</span> readSTRef y
+              writeSTRef x y&#39;
+              writeSTRef y <span class="keyword operator haskell">$!</span> x&#39;<span class="keyword operator haskell">+</span>y&#39;
+              fibST&#39; (n&#39; <span class="keyword operator haskell">-</span> <span class="constant numeric integer decimal haskell">1</span>) x y
+</span></td></pre></tr></tbody></table></div>
+<p>We would like to test the performance of pure exceptions. So, let us have a slightly modified version of it, being a modulo of Fibonacci using <code>Int</code>. The change of type from <code>Integer</code> to <code>Int</code> would be better for us when measuring performance, otherwise the run would have spent time adding really big numbers in each one of the loop iterations.</p>
+<p>We will use this new <code>Exception</code> type,</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="keyword other haskell">data</span> <span class="constant other haskell">MyException</span> <span class="keyword operator haskell">=</span> <span class="constant other haskell">MyException</span> <span class="constant other haskell">Int</span>
+  <span class="keyword other haskell">deriving</span> <span class="constant other haskell">Show</span>
+<span class="meta declaration instance haskell"><span class="keyword other haskell">instance</span> <span class="storage type haskell">Exception</span> <span class="storage type haskell">MyException</span></span>
+</span></td></pre></tr></tbody></table></div>
+<p>... and modify the function in various ways:</p>
+<ul>
+<li>Have the caller use <code>runST</code>.</li>
+<li>Change the type signature bear <code>Int</code> and be under <code>ST</code>.</li>
+<li>Add a throw to some exception along the way.</li>
+</ul>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="sourceMarker">fibMod  <span class="keyword operator haskell">::</span> <span class="constant other haskell">Int</span> <span class="keyword operator haskell">-&gt;</span> <span class="constant other haskell">ST</span> s <span class="constant other haskell">Int</span></span>
+<span class="sourceMarker">fibMod n <span class="keyword operator haskell">=</span> <span class="keyword control haskell">do</span></span>
+    <span class="keyword control haskell">if</span> n <span class="keyword operator haskell">&lt;</span> <span class="constant numeric integer decimal haskell">2</span>
+       <span class="keyword control haskell">then</span> <span class="sourceMarker">return n</span>
+       <span class="keyword control haskell">else</span> <span class="keyword control haskell">do</span> x <span class="keyword operator haskell">&lt;-</span> newSTRef <span class="constant numeric integer decimal haskell">0</span>
+               y <span class="keyword operator haskell">&lt;-</span> newSTRef <span class="constant numeric integer decimal haskell">1</span>
+               fibMod&#39; n x y
+
+    <span class="keyword other haskell">where</span>
+        fibMod&#39; <span class="constant numeric integer decimal haskell">0</span> x _ <span class="keyword operator haskell">=</span> readSTRef x
+        fibMod&#39; n&#39; x y <span class="keyword operator haskell">=</span> <span class="keyword control haskell">do</span>
+            x&#39; <span class="keyword operator haskell">&lt;-</span> readSTRef x
+            y&#39; <span class="keyword operator haskell">&lt;-</span> readSTRef y
+            <span class="sourceMarker">when (n&#39; <span class="keyword operator haskell">==</span> <span class="constant numeric integer decimal haskell">1000</span>) <span class="keyword operator haskell">$</span> <span class="keyword control haskell">do</span></span>
+                <span class="sourceMarker">throw <span class="keyword operator haskell">$</span> <span class="constant other haskell">MyException</span> x&#39; <span class="comment line double-dash haskell"><span class="punctuation definition comment haskell">--</span> not a pure exception (yet!)</span>
+</span>            writeSTRef x y&#39;
+            writeSTRef y <span class="keyword operator haskell">$!</span> x&#39;<span class="keyword operator haskell">+</span>y&#39;
+            fibMod&#39; (n&#39;<span class="keyword operator haskell">-</span><span class="constant numeric integer decimal haskell">1</span>) x y
+</span></td></pre></tr></tbody></table></div>
+<p>We have yet to add a <code>catch</code> anywhere. The problem is that we cannot have a pure function in <code>ST</code> doing <code>catch</code>, because <code>catch :: (Exception e, MonadCatch m) =&gt; m a -&gt; (e -&gt; m a) -&gt; m a</code>. If we try to use <code>catch</code>, we will get the error <code>No instance for (MonadCatch (ST s))</code>.</p>
+<p>To solve, we shall use the <code>ST</code> monad with <code>CatchT</code>. First, we define <code>STCatch</code> type synonym for a short hand:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="keyword other haskell">type</span> <span class="constant other haskell">STCatch</span> s a <span class="keyword operator haskell">=</span> <span class="constant other haskell">CatchT</span> (<span class="constant other haskell">ST</span> s) a
+</span></td></pre></tr></tbody></table></div>
+<p>Now, let us create our <code>fibMod_E</code> variant, which is under <code>STCatch</code>, and modify it to use pure exceptions, thrown using <code>throwM</code>. We will also add a <code>catch</code> wrap, which will fix <code>fibMod_E</code> to return <code>-1</code> on the thrown exception. The <code>catch</code> is conditional, so we can see its effect depending on the use.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta function type-declaration haskell"><span class="entity name function haskell">fibMod_E</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">Int</span> <span class="keyword other arrow haskell">-&gt;</span> <span class="sourceMarker"><span class="storage type haskell">STCatch</span></span> <span class="variable other generic-type haskell">s</span> <span class="storage type haskell">Int</span>
+</span>fibMod_E n <span class="keyword operator haskell">=</span>
+    <span class="keyword control haskell">if</span> n <span class="keyword operator haskell">&lt;</span> <span class="constant numeric integer decimal haskell">2</span>
+       <span class="keyword control haskell">then</span> return n
+       <span class="keyword control haskell">else</span> <span class="keyword control haskell">do</span> x <span class="keyword operator haskell">&lt;-</span> <span class="sourceMarker">lift <span class="keyword operator haskell">$</span></span> newSTRef <span class="constant numeric integer decimal haskell">0</span>
+               y <span class="keyword operator haskell">&lt;-</span> <span class="sourceMarker">lift <span class="keyword operator haskell">$</span></span> newSTRef <span class="constant numeric integer decimal haskell">1</span>
+               fibMod&#39; n x y
+
+    <span class="keyword other haskell">where</span>
+        fibMod&#39; <span class="constant numeric integer decimal haskell">0</span> x _ <span class="keyword operator haskell">=</span> <span class="sourceMarker">lift <span class="keyword operator haskell">$</span></span> readSTRef x
+        fibMod&#39; n&#39; x y <span class="keyword operator haskell">=</span> <span class="keyword control haskell">do</span>
+            x&#39; <span class="keyword operator haskell">&lt;-</span> <span class="sourceMarker">lift <span class="keyword operator haskell">$</span></span> readSTRef x
+            y&#39; <span class="keyword operator haskell">&lt;-</span> <span class="sourceMarker">lift <span class="keyword operator haskell">$</span></span> readSTRef y
+            <span class="sourceMarker">lift <span class="keyword operator haskell">$</span></span> writeSTRef x y&#39;
+            <span class="sourceMarker">lift <span class="keyword operator haskell">$</span></span> writeSTRef y <span class="keyword operator haskell">$!</span> x&#39;<span class="keyword operator haskell">+</span>y&#39;
+            when (abs n&#39; <span class="keyword operator haskell">==</span> <span class="constant numeric integer decimal haskell">1000</span>) <span class="keyword operator haskell">$</span> <span class="keyword control haskell">do</span>
+                <span class="sourceMarker">throwM</span> <span class="keyword operator haskell">$</span> <span class="constant other haskell">MyException</span> x&#39;
+
+            <span class="sourceMarker"><span class="keyword other haskell">let</span> recurse <span class="keyword operator haskell">=</span></span> fibMod&#39; (n&#39;<span class="keyword operator haskell">-</span><span class="constant numeric integer decimal haskell">1</span>) x y
+            <span class="sourceMarker"><span class="keyword control haskell">if</span> n <span class="keyword operator haskell">&lt;=</span> <span class="constant numeric integer decimal haskell">25000000</span></span>
+               <span class="sourceMarker"><span class="keyword control haskell">then</span> recurse</span>
+               <span class="sourceMarker"><span class="keyword control haskell">else</span> catch recurse (<span class="keyword operator haskell">\</span>(<span class="constant other haskell">MyException</span> _) <span class="keyword operator haskell">-&gt;</span> return (<span class="keyword operator haskell">-</span><span class="constant numeric integer decimal haskell">1</span>))</span>
+
+</span></td></pre></tr></tbody></table></div>
+<p>Can we degrade an <code>ST</code> exception back to an <code>IO</code> exception? Yes! Using the following function, that requires the <code>RankNTypes</code> extension for its type signature:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="comment line double-dash haskell"><span class="punctuation definition comment haskell">--</span> | A variant of `runST` for STCatch that turns all _uncaught_
+</span><span class="comment line double-dash haskell"><span class="punctuation definition comment haskell">--</span> &#39;throwM&#39; exceptions back to exceptions thrown in `IO`.
+</span><span class="meta function type-declaration haskell"><span class="entity name function haskell">runSTthrowIO</span> <span class="keyword other double-colon haskell">::</span> (<span class="variable other generic-type haskell">forall</span> <span class="variable other generic-type haskell">s</span>. <span class="storage type haskell">STCatch</span> <span class="variable other generic-type haskell">s</span> <span class="variable other generic-type haskell">a</span>) <span class="keyword other arrow haskell">-&gt;</span> <span class="variable other generic-type haskell">a</span>
+</span>runSTthrowIO action <span class="keyword operator haskell">=</span>
+    <span class="keyword other haskell">case</span> runST <span class="keyword operator haskell">$</span> runCatchT action <span class="keyword other haskell">of</span>
+        <span class="constant other haskell">Left</span> e <span class="keyword operator haskell">-&gt;</span> throw e
+        <span class="constant other haskell">Right</span> r <span class="keyword operator haskell">-&gt;</span> r
+</span></td></pre></tr></tbody></table></div><h2 id="testing">Testing</h2>
+<p>Now we are ready for testing. We will use the following utility, depending on <span class='external-link-outer'><a class="external-link"rel="noopener" target="_blank" href="https://hackage.haskell.org/package/criterion">criterion<span class='external-link-no-underline'></span><svg width='13.5' height='13.5' aria-hidden='true' viewBox='0 0 24 24' class='iconExternalLink_wgqa'><path fill='currentColor' d='M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z'></path></svg></a></span>:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta function type-declaration haskell"><span class="entity name function haskell">timeIt</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">IO</span> <span class="support constant unit haskell">()</span> <span class="keyword other arrow haskell">-&gt;</span> <span class="storage type haskell">IO</span> <span class="support constant unit haskell">()</span>
+</span>timeIt act <span class="keyword operator haskell">=</span> <span class="keyword control haskell">do</span>
+    <span class="keyword other haskell">let</span> w&#39;act <span class="keyword operator haskell">=</span> whnfIO <span class="keyword operator haskell">$</span> catch act err
+        err <span class="keyword operator haskell">=</span> (<span class="keyword operator haskell">\</span>e@(<span class="constant other haskell">MyException</span> _) <span class="keyword operator haskell">-&gt;</span> putStrLn <span class="keyword operator haskell">$</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>caught: <span class="punctuation definition string end haskell">&quot;</span></span> <span class="keyword operator haskell">++</span> show e)
+    t <span class="keyword operator haskell">&lt;-</span> measure w&#39;act <span class="constant numeric integer decimal haskell">1</span>
+    putStrLn <span class="keyword operator haskell">$</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>Total time: <span class="punctuation definition string end haskell">&quot;</span></span> <span class="keyword operator haskell">++</span> show (measTime <span class="keyword operator haskell">$</span> fst t)
+</span></td></pre></tr></tbody></table></div>
+<p>We shall test with various recursion depths, on the two fuctions under discussion:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta function type-declaration haskell"><span class="entity name function haskell">main</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">IO</span> <span class="support constant unit haskell">()</span>
+</span>main <span class="keyword operator haskell">=</span> <span class="keyword control haskell">do</span>
+    putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>------ With lots of catches<span class="punctuation definition string end haskell">&quot;</span></span>
+    timeIt <span class="keyword operator haskell">$</span> print <span class="keyword operator haskell">$</span> runST        <span class="keyword operator haskell">$</span> fibMod   <span class="constant numeric integer decimal haskell">50000000</span>
+    timeIt <span class="keyword operator haskell">$</span> print <span class="keyword operator haskell">$</span> runSTthrowIO <span class="keyword operator haskell">$</span> fibMod_E <span class="constant numeric integer decimal haskell">50000000</span>
+    putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span><span class="constant character escape haskell">\n</span>------ With just one catch<span class="punctuation definition string end haskell">&quot;</span></span>
+    timeIt <span class="keyword operator haskell">$</span> print <span class="keyword operator haskell">$</span> runST        <span class="keyword operator haskell">$</span> fibMod   <span class="constant numeric integer decimal haskell">25000001</span>
+    timeIt <span class="keyword operator haskell">$</span> print <span class="keyword operator haskell">$</span> runSTthrowIO <span class="keyword operator haskell">$</span> fibMod_E <span class="constant numeric integer decimal haskell">25000001</span>
+    putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span><span class="constant character escape haskell">\n</span>------ With no catch<span class="punctuation definition string end haskell">&quot;</span></span>
+    timeIt <span class="keyword operator haskell">$</span> print <span class="keyword operator haskell">$</span> runST        <span class="keyword operator haskell">$</span> fibMod   <span class="constant numeric integer decimal haskell">25000000</span>
+    timeIt <span class="keyword operator haskell">$</span> print <span class="keyword operator haskell">$</span> runSTthrowIO <span class="keyword operator haskell">$</span> fibMod_E <span class="constant numeric integer decimal haskell">25000000</span>
+</span></td></pre></tr></tbody></table></div>
+<p>And the result is:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">------ With lots of catches
+caught: MyException (-5541175486947481557)
+Total time: 0.6768422469031066
+-1
+Total time: 1.5523557260166854
+
+------ With just one catch
+caught: MyException 5934185968946882193
+Total time: 0.32111207104753703
+-1
+Total time: 0.7558517289580777
+
+------ With no catch
+caught: MyException 4809429493926266912
+Total time: 0.32045713800471276
+caught: MyException 4809429493926266912
+<span class="sourceMarker">Total time: 0.26791215199045837</span>
+</span></td></pre></tr></tbody></table></div>
+<p>The first two results are of no surprise. Both the <code>if</code> and <code>catch</code> incur their overheads. The last result is more peculiar, because it suggests that the code for <code>fibMod_E</code> emanated from the compiler is <em>even faster</em>, despite of the <code>if</code>, as long as there are no wrapping <code>catch</code>'s in the evaluation. The difference probably boils down to the generated machine code, but I'd leave that to a topic of a different post.</p>
+<h2 id="a-few-extra-tests">A few extra tests</h2>
+<p>(edit: added March 2, 2016)</p>
+<p>Edward Kmett <span class='external-link-outer'><a class="external-link"rel="noopener" target="_blank" href="https://www.reddit.com/r/haskell/comments/47evoh/performance_of_the_st_monad_with_pure_exceptions/d0cj9z1">pointed out<span class='external-link-no-underline'></span><svg width='13.5' height='13.5' aria-hidden='true' viewBox='0 0 24 24' class='iconExternalLink_wgqa'><path fill='currentColor' d='M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z'></path></svg></a></span> on Reddit that perhaps it would be interesting to test with <code>unsafeSTToIO</code>. So I've added the following cases (and also regenerated the results above, because every little change can affect the optimizer, and they varied slightly).</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell">    putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>------ With lots of catches<span class="punctuation definition string end haskell">&quot;</span></span>
+    timeIt <span class="keyword operator haskell">$</span> (unsafeSTToIO <span class="keyword operator haskell">$</span> fibMod   <span class="constant numeric integer decimal haskell">50000000</span>) <span class="keyword operator haskell">&gt;&gt;=</span> print
+    putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span><span class="constant character escape haskell">\n</span>------ With just one catch<span class="punctuation definition string end haskell">&quot;</span></span>
+    timeIt <span class="keyword operator haskell">$</span> (unsafeSTToIO <span class="keyword operator haskell">$</span> fibMod   <span class="constant numeric integer decimal haskell">25000001</span>) <span class="keyword operator haskell">&gt;&gt;=</span> print
+    putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span><span class="constant character escape haskell">\n</span>------ With no catch<span class="punctuation definition string end haskell">&quot;</span></span>
+    timeIt <span class="keyword operator haskell">$</span> (unsafeSTToIO <span class="keyword operator haskell">$</span> fibMod   <span class="constant numeric integer decimal haskell">25000000</span>) <span class="keyword operator haskell">&gt;&gt;=</span> print
+</span></td></pre></tr></tbody></table></div>
+<p>The additional output is:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">------ With lots of catches
+caught: MyException (-5541175486947481557)
+Total time: 0.5766234899638221
+
+------ With just one catch
+caught: MyException 5934185968946882193
+Total time: 0.2883113300194964
+
+------ With no catch
+caught: MyException 4809429493926266912
+<span class="sourceMarker">Total time: 0.29055844293907285</span>
+</span></td></pre></tr></tbody></table></div>
+<p>For the first two cases the result are around 11% better than the pure <code>runST</code>. Interestingly, for the third one <code>runSTthrowIO</code> still wins.</p>
+<p>An even more drastic approach is to use <code>unsafeIOToST</code> and <code>unsafeSTToIO</code> in conjunction, modifying the original <code>fibMod</code>, allowing to freely insert the less pure <code>IO</code>-based <code>catch</code> while keeping it in <code>ST</code> only from an API's perspective. It's not entirely sound in terms of exception handling, but it is worth presenting.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta function type-declaration haskell"><span class="entity name function haskell">fibMod_H</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">Int</span> <span class="keyword other arrow haskell">-&gt;</span> <span class="storage type haskell">ST</span> <span class="variable other generic-type haskell">s</span> <span class="storage type haskell">Int</span>
+</span>fibMod_H n <span class="keyword operator haskell">=</span>
+    <span class="keyword control haskell">if</span> n <span class="keyword operator haskell">&lt;</span> <span class="constant numeric integer decimal haskell">2</span>
+       <span class="keyword control haskell">then</span> return n
+       <span class="keyword control haskell">else</span> <span class="keyword control haskell">do</span> x <span class="keyword operator haskell">&lt;-</span> newSTRef <span class="constant numeric integer decimal haskell">0</span>
+               y <span class="keyword operator haskell">&lt;-</span> newSTRef <span class="constant numeric integer decimal haskell">1</span>
+               fibMod&#39; n x y
+
+    <span class="keyword other haskell">where</span>
+        fibMod&#39; <span class="constant numeric integer decimal haskell">0</span> x _ <span class="keyword operator haskell">=</span> readSTRef x
+        fibMod&#39; n&#39; x y <span class="keyword operator haskell">=</span> <span class="keyword control haskell">do</span>
+            x&#39; <span class="keyword operator haskell">&lt;-</span> readSTRef x
+            y&#39; <span class="keyword operator haskell">&lt;-</span> readSTRef y
+            writeSTRef x y&#39;
+            writeSTRef y <span class="keyword operator haskell">$!</span> x&#39;<span class="keyword operator haskell">+</span>y&#39;
+            when (n&#39; <span class="keyword operator haskell">==</span> <span class="constant numeric integer decimal haskell">1000</span>) <span class="keyword operator haskell">$</span> <span class="keyword control haskell">do</span>
+                throw <span class="keyword operator haskell">$</span> <span class="constant other haskell">MyException</span> x&#39;
+
+            <span class="keyword other haskell">let</span> recurse <span class="keyword operator haskell">=</span> fibMod&#39; (n&#39;<span class="keyword operator haskell">-</span><span class="constant numeric integer decimal haskell">1</span>) x y
+            <span class="keyword control haskell">if</span> n <span class="keyword operator haskell">&lt;=</span> <span class="constant numeric integer decimal haskell">25000000</span>
+               <span class="keyword control haskell">then</span> recurse
+               <span class="keyword control haskell">else</span> <span class="sourceMarker">unsafeIOToST <span class="keyword operator haskell">$</span></span>
+                       catch (<span class="sourceMarker">unsafeSTToIO</span> recurse)
+				       (<span class="keyword operator haskell">\</span>(<span class="constant other haskell">MyException</span> _) <span class="keyword operator haskell">-&gt;</span> return (<span class="keyword operator haskell">-</span><span class="constant numeric integer decimal haskell">1</span>))
+</span></td></pre></tr></tbody></table></div>
+<p>With the prints:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell">    putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>------ With lots of catches<span class="punctuation definition string end haskell">&quot;</span></span>
+    timeIt <span class="keyword operator haskell">$</span> print <span class="keyword operator haskell">$</span> runST        <span class="keyword operator haskell">$</span> fibMod_H <span class="constant numeric integer decimal haskell">50000000</span>
+    putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span><span class="constant character escape haskell">\n</span>------ With just one catch<span class="punctuation definition string end haskell">&quot;</span></span>
+    timeIt <span class="keyword operator haskell">$</span> print <span class="keyword operator haskell">$</span> runST        <span class="keyword operator haskell">$</span> fibMod_H <span class="constant numeric integer decimal haskell">25000001</span>
+    putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span><span class="constant character escape haskell">\n</span>------ With no catch<span class="punctuation definition string end haskell">&quot;</span></span>
+    timeIt <span class="keyword operator haskell">$</span> print <span class="keyword operator haskell">$</span> runST        <span class="keyword operator haskell">$</span> fibMod_H <span class="constant numeric integer decimal haskell">25000000</span>
+</span></td></pre></tr></tbody></table></div>
+<p>However, it does not improve on our cases:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">------ With lots of catches
+-1
+Total time: 3.401594614959322
+
+------ With just one catch
+-1
+Total time: 1.2730798620032147
+
+------ With no catch
+caught: MyException 4809429493926266912
+Total time: 0.30070900300052017
+</span></td></pre></tr></tbody></table></div>
+<p>The first two cases are considerably worse, and the third is still a bit better than using <code>STCatch</code>, but it's not a representative of the common case where <code>catch</code> is probably going to appear in the evaluation at least once. Final conclusion is that pure exceptions are still a win, if we wish to remain sound.</p>
+
+        </article>
+	<div>
+	    <hr />
+	    <div class="footerIcons">
+		<span class="footerChild1">
+		    <h6 class="SocialShare_socialShareTitle">Share this post</h6>
+		    <ul class="SocialShare_socialIcons">
+			<li>
+			    <a title="Tweet" target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?text=Performance%20of%20the%20ST%20Monad%20with%20Pure%20Exceptions&amp;url=https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;st-monad-perf-with-exceptions&#x2F; by @DanAloni"
+				class="SocialShare_socialIconButton" style="--socialIconColor:var(--colorTwitter)">
+				<svg xmlns="http://www.w3.org/2000/svg"
+				    viewBox="0 0 512 512" class="twitter_svg__svg-inline--fa twitter_svg__fa-w-14"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+				</path></svg>
+			    </a>
+			</li>
+			<li><a title="Share on Linkedin" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/sharing/share-offsite/?url=https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;st-monad-perf-with-exceptions&#x2F;" class="SocialShare_socialIconButton" style="--socialIconColor:var(--colorLinkedIn)">
+				<svg aria-hidden="true" data-prefix="fab" data-icon="linkedin-in" class="linkedin_svg__svg-inline--fa linkedin_svg__fa-linkedin-in linkedin_svg__fa-w-14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+				    <path fill="currentColor" d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 01107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z">
+				    </path>
+				</svg></a>
+			</li>
+			<li id="aloni-copy-link">
+			    <span tabindex="0" title="Copy post link" class="SocialShare_socialIconButton" style="--socialIconColor:var(--colorNeutral900)"><svg aria-hidden="true" data-prefix="far" data-icon="link" class="link_svg__svg-inline--fa link_svg__fa-link link_svg__fa-w-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+				    <path fill="currentColor" d="M314.222 197.78c51.091 51.091 54.377 132.287 9.75 187.16-6.242 7.73-2.784 3.865-84.94 86.02-54.696 54.696-143.266 54.745-197.99 0-54.711-54.69-54.734-143.255 0-197.99 32.773-32.773 51.835-51.899 63.409-63.457 7.463-7.452 20.331-2.354 20.486 8.192a173.31 173.31 0 004.746 37.828c.966 4.029-.272 8.269-3.202 11.198L80.632 312.57c-32.755 32.775-32.887 85.892 0 118.8 32.775 32.755 85.892 32.887 118.8 0l75.19-75.2c32.718-32.725 32.777-86.013 0-118.79a83.722 83.722 0 00-22.814-16.229c-4.623-2.233-7.182-7.25-6.561-12.346 1.356-11.122 6.296-21.885 14.815-30.405l4.375-4.375c3.625-3.626 9.177-4.594 13.76-2.294 12.999 6.524 25.187 15.211 36.025 26.049zM470.958 41.04c-54.724-54.745-143.294-54.696-197.99 0-82.156 82.156-78.698 78.29-84.94 86.02-44.627 54.873-41.341 136.069 9.75 187.16 10.838 10.838 23.026 19.525 36.025 26.049 4.582 2.3 10.134 1.331 13.76-2.294l4.375-4.375c8.52-8.519 13.459-19.283 14.815-30.405.621-5.096-1.938-10.113-6.561-12.346a83.706 83.706 0 01-22.814-16.229c-32.777-32.777-32.718-86.065 0-118.79l75.19-75.2c32.908-32.887 86.025-32.755 118.8 0 32.887 32.908 32.755 86.025 0 118.8l-45.848 45.84c-2.93 2.929-4.168 7.169-3.202 11.198a173.31 173.31 0 014.746 37.828c.155 10.546 13.023 15.644 20.486 8.192 11.574-11.558 30.636-30.684 63.409-63.457 54.733-54.735 54.71-143.3-.001-197.991z">
+				    </path>
+				</svg>
+			    </span>
+			</li>
+		    </ul>
+		</span>
+		
+		<span class="footerChild2">
+		    <h6 class="SocialShare_socialShareTitle">Follow author</h6>
+		    <ul class="SocialShare_socialIcons">
+			<li>
+			    <a href="https://twitter.com/DanAloni?ref_src=twsrc%5Etfw" data-dnt="true" data-show-count="false" data-show-screen-name="false" class="SocialShare_socialIconButton twitter-follow-button" style="--socialIconColor:var(--colorTwitter)">
+				<svg xmlns="http://www.w3.org/2000/svg"
+				    viewBox="0 0 512 512" class="twitter_svg__svg-inline--fa twitter_svg__fa-w-14"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+				</path></svg>
+			    </a>
+			    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+			</li>
+		    </ul>
+		</span>
+		
+	    </div>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+    
+<footer class="footer text-muted">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 order-last order-lg-first">
+				<ul class="list-inline">
+					
+						<li class="list-inline-item">Powered by a customized <a href="https://www.getzola.org/">Zola</a>, with a <a href="https://github.com/aaranxu/adidoks">AdiDoks</a> theme</li>
+					
+				</ul>
+			</div>
+			<div class="col-lg-8 order-first order-lg-last text-lg-end">
+				<ul class="list-inline">
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>
+
+  
+
+  
+<script src="https://blog.aloni.org/js/main.js" defer></script>
+
+
+</body>
+</html>
