@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      
+	  <!-- Global site tag (gtag.js) - Google Analytics -->
+	  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35403825-1"></script>
+	  <script>
+	    window.dataLayer = window.dataLayer || [];
+	    function gtag(){dataLayer.push(arguments);}
+	    gtag('js', new Date());
+
+            gtag('config', 'UA-35403825-1');
+	  </script>
+      
+
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title> - A stack-less Rust coroutine library under 100 LoC</title>
+
+      
+
+      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/mathtex-script-type.min.js" integrity="sha384-zWYbd0NBwgTsgIdFKVprSfTh1mbMPe5Hz1X3yY4Sd1h/K1cQoUe36OGwAGz/PcDy" crossorigin="anonymous"></script>
+              
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+                  onload="renderMathInElement(document.body);"></script>
+              
+          
+      
+
+      
+          <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;site.css">
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+          
+      
+
+      
+      
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div id="mobile-navbar" class="mobile-navbar">
+              <div class="mobile-header-logo">
+                <a href="/" class="logo">Dan Aloni&#x27;s blog</a>
+              </div>
+              <div class="mobile-navbar-icon icon-out">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+              <ul class="mobile-menu-list">
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                            Home
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                            Tags
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                            About
+                        </a>
+                    </li>
+                
+		<li class="mobile-menu-item">
+		
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+  	        </li>
+              </ul>
+            </nav>
+
+            <header id="header">
+                <div class="logo">
+		    <a href="https:&#x2F;&#x2F;blog.aloni.org">Dan Aloni&#x27;s blog</a><br>
+		    
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+		</div>
+                <nav class="menu">
+                    <ul>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                                    Home
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                                    Categories
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                                    Tags
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                                    About
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <div class="content" id="mobile-panel">
+                    
+
+
+
+<article class="post">
+    
+    
+
+    
+    <header class="post__header">
+	
+        <h1>
+            <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;a-stack-less-rust-coroutine-100-loc&#x2F;">A stack-less Rust coroutine library under 100 LoC</a>
+        </h1>
+	
+        <div class="post__meta">
+            <span class="post__time">2020-01-25</span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+      <p>As of stable <a href="https://www.rust-lang.org/">Rust</a> 1.39.0, it is possible to
+implement a very basic and safe
+<a href="https://en.wikipedia.org/wiki/Coroutine">coroutine</a> library using Rust's
+<a href="https://www.infoq.com/presentations/rust-2019/"><code>async</code>/<code>await</code></a> support, and
+in under 100 lines of code.  The implementation depends solely on <code>std</code> and is
+stack-less (meaning, not depending on an separate CPU architecture stack).</p>
+<span id="continue-reading"></span>
+<p>A very basic simple coroutine library contains only an event-less 'yield'
+primitive, which stops execution of the current coroutine so that other
+coroutines can run. This is the kind of library that I chose to demonstrate in
+this post to provide the most concise example.</p>
+<h2 id="yielder">Yielder</h2>
+<p>To the coroutine we pass a <code>Fib</code> struct that only contains a simple binary
+state. This <code>Fib</code> struct has a <code>waiter</code> method that creates a
+<a href="https://doc.rust-lang.org/std/future/trait.Future.html"><code>Future</code></a> that the
+coroutine can use in order to be <code>await</code>ed upon.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source rust"><span class="keyword other rust">use</span> <span class="meta path rust">std<span class="punctuation accessor rust">::</span></span><span class="meta path rust">future<span class="punctuation accessor rust">::</span></span>Future<span class="punctuation terminator rust">;</span>
+<span class="keyword other rust">use</span> <span class="meta path rust">std<span class="punctuation accessor rust">::</span></span><span class="meta path rust">pin<span class="punctuation accessor rust">::</span></span>Pin<span class="punctuation terminator rust">;</span>
+<span class="keyword other rust">use</span> <span class="meta path rust">std<span class="punctuation accessor rust">::</span></span><span class="meta path rust">task<span class="punctuation accessor rust">::</span></span><span class="meta block rust"><span class="punctuation section block begin rust">{</span>Poll<span class="punctuation separator rust">,</span> Context</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span><span class="punctuation terminator rust">;</span>
+
+<span class="meta enum rust"><span class="storage type enum rust">enum</span> <span class="entity name enum rust">State</span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    Halted<span class="punctuation separator rust">,</span>
+    Running<span class="punctuation separator rust">,</span>
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+
+<span class="meta struct rust"><span class="storage type struct rust">struct</span> </span><span class="meta struct rust"><span class="entity name struct rust">Fib</span> </span><span class="meta struct rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    <span class="variable other member rust">state</span><span class="punctuation separator type rust">:</span> State,
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+
+<span class="meta impl rust"><span class="storage type impl rust">impl</span> </span><span class="meta impl rust"><span class="entity name impl rust">Fib</span> </span><span class="meta impl rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    <span class="meta function rust"><span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">waiter</span></span><span class="meta generic rust"><span class="punctuation definition generic begin rust">&lt;</span><span class="storage modifier lifetime rust">&#39;a</span><span class="punctuation definition generic end rust">&gt;</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span><span class="keyword operator rust">&amp;</span><span class="storage modifier lifetime rust">&#39;a</span> <span class="storage modifier rust">mut</span> <span class="variable parameter rust">self</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> <span class="meta function return-type rust"><span class="punctuation separator rust">-&gt;</span> <span class="meta generic rust">Waiter<span class="punctuation definition generic begin rust">&lt;</span><span class="storage modifier lifetime rust">&#39;a</span><span class="punctuation definition generic end rust">&gt;</span></span></span> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+        Waiter <span class="meta block rust"><span class="punctuation section block begin rust">{</span> fib<span class="punctuation separator rust">:</span> <span class="variable language rust">self</span> </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
+    </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+
+<span class="meta struct rust"><span class="storage type struct rust">struct</span> </span><span class="meta struct rust"><span class="meta generic rust"><span class="entity name struct rust">Waiter</span><span class="meta generic rust"><span class="punctuation definition generic begin rust">&lt;</span><span class="storage modifier lifetime rust">&#39;a</span><span class="punctuation definition generic end rust">&gt;</span></span></span></span><span class="meta struct rust"> </span><span class="meta struct rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    <span class="variable other member rust">fib</span><span class="punctuation separator type rust">:</span> <span class="keyword operator rust">&amp;</span><span class="storage modifier lifetime rust">&#39;a</span> <span class="storage modifier rust">mut</span> Fib,
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+
+<span class="meta impl rust"><span class="storage type impl rust">impl</span></span><span class="meta impl rust"><span class="meta generic rust"><span class="punctuation definition generic begin rust">&lt;</span><span class="storage modifier lifetime rust">&#39;a</span><span class="punctuation definition generic end rust">&gt;</span></span></span><span class="meta impl rust"> Future <span class="keyword other rust">for</span></span><span class="meta impl rust"> <span class="entity name impl rust">Waiter</span><span class="meta generic rust"><span class="punctuation definition generic begin rust">&lt;</span><span class="storage modifier lifetime rust">&#39;a</span><span class="punctuation definition generic end rust">&gt;</span></span> </span><span class="meta impl rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    <span class="storage type type rust">type</span> <span class="entity name type rust">Output</span> <span class="keyword operator assignment rust">=</span> <span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+
+    <span class="meta function rust"><span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">poll</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span><span class="storage modifier rust">mut</span> <span class="variable parameter rust">self</span>: <span class="meta generic rust">Pin<span class="punctuation definition generic begin rust">&lt;</span><span class="keyword operator rust">&amp;</span><span class="storage modifier rust">mut</span> <span class="storage type rust">Self</span><span class="punctuation definition generic end rust">&gt;</span></span>, <span class="variable parameter rust">_cx</span><span class="punctuation separator rust">:</span> <span class="keyword operator rust">&amp;</span><span class="storage modifier rust">mut</span> Context</span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> <span class="meta function return-type rust"><span class="punctuation separator rust">-&gt;</span> <span class="meta generic rust">Poll<span class="punctuation definition generic begin rust">&lt;</span><span class="meta path rust"><span class="storage type rust"><span class="storage type rust">Self</span><span class="punctuation accessor rust">::</span></span></span>Output<span class="punctuation definition generic end rust">&gt;</span></span></span> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+        <span class="keyword control rust">match</span> <span class="variable language rust">self</span><span class="punctuation accessor dot rust">.</span>fib<span class="punctuation accessor dot rust">.</span>state <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+            <span class="meta path rust">State<span class="punctuation accessor rust">::</span></span>Halted <span class="keyword operator rust">=&gt;</span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+                <span class="variable language rust">self</span><span class="punctuation accessor dot rust">.</span>fib<span class="punctuation accessor dot rust">.</span>state <span class="keyword operator assignment rust">=</span> <span class="meta path rust">State<span class="punctuation accessor rust">::</span></span>Running<span class="punctuation terminator rust">;</span>
+                <span class="meta path rust">Poll<span class="punctuation accessor rust">::</span></span>Ready<span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span>
+            </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
+            <span class="meta path rust">State<span class="punctuation accessor rust">::</span></span>Running <span class="keyword operator rust">=&gt;</span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+                <span class="variable language rust">self</span><span class="punctuation accessor dot rust">.</span>fib<span class="punctuation accessor dot rust">.</span>state <span class="keyword operator assignment rust">=</span> <span class="meta path rust">State<span class="punctuation accessor rust">::</span></span>Halted<span class="punctuation terminator rust">;</span>
+                <span class="meta path rust">Poll<span class="punctuation accessor rust">::</span></span>Pending
+            </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
+        </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
+    </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+</span></td></pre></tr></tbody></table></div><h2 id="executor">Executor</h2>
+<p>Our executor keeps a vector of uncompleted futures, where the state of each
+future is located on the heap. As a very basic executor, it only supports
+adding futures to it before actual execution takes place and not afterward.
+The <code>push</code> method adds a closure to the list of futures, and the <code>run</code> method
+performs interlaced execution of futures until all of them complete.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source rust"><span class="keyword other rust">use</span> <span class="meta path rust">std<span class="punctuation accessor rust">::</span></span><span class="meta path rust">collections<span class="punctuation accessor rust">::</span></span>VecDeque<span class="punctuation terminator rust">;</span>
+
+<span class="meta struct rust"><span class="storage type struct rust">struct</span> </span><span class="meta struct rust"><span class="entity name struct rust">Executor</span> </span><span class="meta struct rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    <span class="variable other member rust">fibs</span><span class="punctuation separator type rust">:</span> <span class="meta generic rust">VecDeque<span class="punctuation definition generic begin rust">&lt;</span><span class="meta generic rust">Pin<span class="punctuation definition generic begin rust">&lt;</span><span class="meta generic rust"><span class="support type rust">Box</span><span class="punctuation definition generic begin rust">&lt;</span>dyn <span class="meta generic rust">Future<span class="punctuation definition generic begin rust">&lt;</span>Output=<span class="punctuation section group begin rust">(</span><span class="punctuation section group end rust">)</span><span class="punctuation definition generic end rust">&gt;</span></span><span class="punctuation definition generic end rust">&gt;</span></span><span class="punctuation definition generic end rust">&gt;</span></span><span class="punctuation definition generic end rust">&gt;</span></span>,
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+
+<span class="meta impl rust"><span class="storage type impl rust">impl</span> </span><span class="meta impl rust"><span class="entity name impl rust">Executor</span> </span><span class="meta impl rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    <span class="meta function rust"><span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">new</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> <span class="meta function return-type rust"><span class="punctuation separator rust">-&gt;</span> <span class="storage type rust">Self</span></span> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+        Executor <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+            fibs<span class="punctuation separator rust">:</span> <span class="meta path rust">VecDeque<span class="punctuation accessor rust">::</span></span>new<span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation separator rust">,</span>
+        </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
+    </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+
+    <span class="meta function rust"><span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">push</span></span><span class="meta generic rust"><span class="punctuation definition generic begin rust">&lt;</span>C, F<span class="punctuation definition generic end rust">&gt;</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span><span class="keyword operator rust">&amp;</span><span class="storage modifier rust">mut</span> <span class="variable parameter rust">self</span>, <span class="variable parameter rust">closure</span><span class="punctuation separator rust">:</span> C</span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust">
+    </span><span class="meta function rust"><span class="keyword other rust">where</span>
+        F<span class="punctuation separator rust">:</span> <span class="meta generic rust">Future<span class="punctuation definition generic begin rust">&lt;</span>Output=<span class="punctuation section group begin rust">(</span><span class="punctuation section group end rust">)</span><span class="punctuation definition generic end rust">&gt;</span></span> + <span class="storage modifier lifetime rust">&#39;static</span>,
+        C<span class="punctuation separator rust">:</span> FnOnce<span class="punctuation section group begin rust">(</span>Fib<span class="punctuation section group end rust">)</span> -&gt; F,
+    </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+        <span class="storage type rust">let</span> fib <span class="keyword operator assignment rust">=</span> Fib <span class="meta block rust"><span class="punctuation section block begin rust">{</span> state<span class="punctuation separator rust">:</span> <span class="meta path rust">State<span class="punctuation accessor rust">::</span></span>Running </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span><span class="punctuation terminator rust">;</span>
+        <span class="variable language rust">self</span><span class="punctuation accessor dot rust">.</span>fibs<span class="punctuation accessor dot rust">.</span><span class="support function rust">push_back</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="support type rust">Box</span><span class="meta path rust"><span class="punctuation accessor rust">::</span></span>pin<span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="support function rust">closure</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span>fib</span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+    </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+
+    <span class="meta function rust"><span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">run</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span><span class="keyword operator rust">&amp;</span><span class="storage modifier rust">mut</span> <span class="variable parameter rust">self</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+        <span class="storage type rust">let</span> waker <span class="keyword operator assignment rust">=</span> <span class="meta path rust">waker<span class="punctuation accessor rust">::</span></span>create<span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+        <span class="storage type rust">let</span> <span class="storage modifier rust">mut</span> context <span class="keyword operator assignment rust">=</span> <span class="meta path rust">Context<span class="punctuation accessor rust">::</span></span>from_waker<span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="keyword operator bitwise rust">&amp;</span>waker</span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+
+        <span class="keyword control rust">while</span> <span class="storage type rust">let</span> <span class="support type rust">Some</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="storage modifier rust">mut</span> fib</span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span> <span class="keyword operator assignment rust">=</span> <span class="variable language rust">self</span><span class="punctuation accessor dot rust">.</span>fibs<span class="punctuation accessor dot rust">.</span><span class="support function rust">pop_front</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+            <span class="keyword control rust">match</span> fib<span class="punctuation accessor dot rust">.</span><span class="support function rust">as_mut</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation accessor dot rust">.</span><span class="support function rust">poll</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="keyword operator bitwise rust">&amp;</span><span class="storage modifier rust">mut</span> context</span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+                <span class="meta path rust">Poll<span class="punctuation accessor rust">::</span></span>Pending <span class="keyword operator rust">=&gt;</span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+                    <span class="variable language rust">self</span><span class="punctuation accessor dot rust">.</span>fibs<span class="punctuation accessor dot rust">.</span><span class="support function rust">push_back</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span>fib</span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+                </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span><span class="punctuation separator rust">,</span>
+                <span class="meta path rust">Poll<span class="punctuation accessor rust">::</span></span>Ready<span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span> <span class="keyword operator rust">=&gt;</span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span></span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span><span class="punctuation separator rust">,</span>
+            </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
+        </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
+    </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+</span></td></pre></tr></tbody></table></div><h2 id="null-waker">Null Waker</h2>
+<p>For the executor implementation above, we need a null
+<a href="https://docs.rs/futures/0.3.1/futures/task/struct.Waker.html">Waker</a>, similar
+to the one used in <a href="https://github.com/whatisaphone/genawaiter">genawaiter</a>
+(<a href="https://github.com/whatisaphone/genawaiter/blob/master/src/waker.rs">link</a>).</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source rust"><span class="keyword other rust">use</span> <span class="meta path rust">std<span class="punctuation accessor rust">::</span></span><span class="meta path rust">task<span class="punctuation accessor rust">::</span></span><span class="meta block rust"><span class="punctuation section block begin rust">{</span>RawWaker<span class="punctuation separator rust">,</span> RawWakerVTable<span class="punctuation separator rust">,</span> Waker</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span><span class="punctuation separator rust">,</span>
+
+<span class="meta function rust"><span class="meta function rust"><span class="storage modifier rust">pub</span> <span class="storage type function rust">fn</span> </span><span class="entity name function rust">create</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> <span class="meta function return-type rust"><span class="punctuation separator rust">-&gt;</span> Waker</span> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    <span class="comment line double-slash rust"><span class="punctuation definition comment rust">//</span> Safety: The waker points to a vtable with functions that do nothing. Doing
+</span>    <span class="comment line double-slash rust"><span class="punctuation definition comment rust">//</span> nothing is memory-safe.
+</span>    <span class="storage modifier rust">unsafe</span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span> <span class="meta path rust">Waker<span class="punctuation accessor rust">::</span></span>from_raw<span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="constant other rust">RAW_WAKER</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span> </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+
+<span class="storage type rust">const</span> <span class="constant other rust">RAW_WAKER</span><span class="punctuation separator rust">:</span> RawWaker <span class="keyword operator assignment rust">=</span> <span class="meta path rust">RawWaker<span class="punctuation accessor rust">::</span></span>new<span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="meta path rust">std<span class="punctuation accessor rust">::</span></span><span class="meta path rust">ptr<span class="punctuation accessor rust">::</span></span>null<span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation separator rust">,</span> <span class="keyword operator bitwise rust">&amp;</span><span class="constant other rust">VTABLE</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+<span class="storage type rust">const</span> <span class="constant other rust">VTABLE</span><span class="punctuation separator rust">:</span> RawWakerVTable <span class="keyword operator assignment rust">=</span> <span class="meta path rust">RawWakerVTable<span class="punctuation accessor rust">::</span></span>new<span class="meta group rust"><span class="punctuation section group begin rust">(</span>clone<span class="punctuation separator rust">,</span> wake<span class="punctuation separator rust">,</span> wake_by_ref<span class="punctuation separator rust">,</span> drop</span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+
+<span class="storage modifier rust">unsafe</span> <span class="meta function rust"><span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">clone</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span><span class="keyword operator rust">_</span>: <span class="storage modifier rust">*const</span> <span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> <span class="meta function return-type rust"><span class="punctuation separator rust">-&gt;</span> RawWaker</span> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span> <span class="constant other rust">RAW_WAKER</span> </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+<span class="storage modifier rust">unsafe</span> <span class="meta function rust"><span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">wake</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span><span class="keyword operator rust">_</span>: <span class="storage modifier rust">*const</span> <span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span> </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+<span class="storage modifier rust">unsafe</span> <span class="meta function rust"><span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">wake_by_ref</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span><span class="keyword operator rust">_</span>: <span class="storage modifier rust">*const</span> <span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span> </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+<span class="storage modifier rust">unsafe</span> <span class="meta function rust"><span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">drop</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span><span class="keyword operator rust">_</span>: <span class="storage modifier rust">*const</span> <span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span> </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+</span></td></pre></tr></tbody></table></div><h2 id="giving-it-a-go">Giving it a go</h2>
+<p>We can test the library using a program such as the following:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source rust"><span class="meta function rust"><span class="meta function rust"><span class="storage modifier rust">pub</span> <span class="storage type function rust">fn</span> </span><span class="entity name function rust">main</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    <span class="storage type rust">let</span> <span class="storage modifier rust">mut</span> exec <span class="keyword operator assignment rust">=</span> <span class="meta path rust">Executor<span class="punctuation accessor rust">::</span></span>new<span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+
+    <span class="keyword control rust">for</span> instance <span class="keyword operator rust">in</span> <span class="constant numeric integer decimal rust">1</span><span class="keyword operator range rust">..</span><span class="keyword operator assignment rust">=</span><span class="constant numeric integer decimal rust">3</span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+        exec<span class="punctuation accessor dot rust">.</span><span class="support function rust">push</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="storage modifier rust">move</span> <span class="keyword operator bitwise rust">|</span><span class="storage modifier rust">mut</span> fib<span class="keyword operator bitwise rust">|</span> async <span class="storage modifier rust">move</span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+            <span class="support macro rust">println!</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="string quoted double rust"><span class="punctuation definition string begin rust">&quot;</span><span class="constant other placeholder rust">{}</span> A<span class="punctuation definition string end rust">&quot;</span></span></span><span class="meta group rust"><span class="punctuation separator rust">,</span> instance<span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+            fib<span class="punctuation accessor dot rust">.</span><span class="support function rust">waiter</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation accessor dot rust">.</span>await<span class="punctuation terminator rust">;</span>
+            <span class="support macro rust">println!</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="string quoted double rust"><span class="punctuation definition string begin rust">&quot;</span><span class="constant other placeholder rust">{}</span> B<span class="punctuation definition string end rust">&quot;</span></span></span><span class="meta group rust"><span class="punctuation separator rust">,</span> instance<span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+            fib<span class="punctuation accessor dot rust">.</span><span class="support function rust">waiter</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation accessor dot rust">.</span>await<span class="punctuation terminator rust">;</span>
+            <span class="support macro rust">println!</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="string quoted double rust"><span class="punctuation definition string begin rust">&quot;</span><span class="constant other placeholder rust">{}</span> C<span class="punctuation definition string end rust">&quot;</span></span></span><span class="meta group rust"><span class="punctuation separator rust">,</span> instance<span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+            fib<span class="punctuation accessor dot rust">.</span><span class="support function rust">waiter</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation accessor dot rust">.</span>await<span class="punctuation terminator rust">;</span>
+            <span class="support macro rust">println!</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="string quoted double rust"><span class="punctuation definition string begin rust">&quot;</span><span class="constant other placeholder rust">{}</span> D<span class="punctuation definition string end rust">&quot;</span></span></span><span class="meta group rust"><span class="punctuation separator rust">,</span> instance<span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+        </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+    </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
+
+    <span class="support macro rust">println!</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="string quoted double rust"><span class="punctuation definition string begin rust">&quot;</span>Running<span class="punctuation definition string end rust">&quot;</span></span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+    exec<span class="punctuation accessor dot rust">.</span><span class="support function rust">run</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+    <span class="support macro rust">println!</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="string quoted double rust"><span class="punctuation definition string begin rust">&quot;</span>Done<span class="punctuation definition string end rust">&quot;</span></span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+</span></td></pre></tr></tbody></table></div>
+<p>The output is as follows:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">Running
+1 A
+2 A
+3 A
+1 B
+2 B
+3 B
+1 C
+2 C
+3 C
+1 D
+2 D
+3 D
+Done
+</span></td></pre></tr></tbody></table></div><h2 id="performance">Performance</h2>
+<p>Timing the following program compiled with <code>lto = true</code>, I have seen that it
+takes about 5 nanoseconds for each iteration of the internal loop, on an Intel
+i7-7820X CPU.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source rust"><span class="meta function rust"><span class="meta function rust"><span class="storage modifier rust">pub</span> <span class="storage type function rust">fn</span> </span><span class="entity name function rust">bench</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    <span class="storage type rust">let</span> <span class="storage modifier rust">mut</span> exec <span class="keyword operator assignment rust">=</span> <span class="meta path rust">Executor<span class="punctuation accessor rust">::</span></span>new<span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+
+    <span class="keyword control rust">for</span> <span class="keyword operator rust">_</span> <span class="keyword operator rust">in</span> <span class="constant numeric integer decimal rust">1</span><span class="keyword operator range rust">..</span><span class="keyword operator assignment rust">=</span><span class="constant numeric integer decimal rust">2</span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+        exec<span class="punctuation accessor dot rust">.</span><span class="support function rust">push</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="storage modifier rust">move</span> <span class="keyword operator bitwise rust">|</span><span class="storage modifier rust">mut</span> fib<span class="keyword operator bitwise rust">|</span> async <span class="storage modifier rust">move</span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+            <span class="keyword control rust">for</span> <span class="keyword operator rust">_</span> <span class="keyword operator rust">in</span> <span class="constant numeric integer decimal rust">0</span><span class="keyword operator range rust">..</span><span class="constant numeric integer decimal rust">100_000_000</span> <span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+                fib<span class="punctuation accessor dot rust">.</span><span class="support function rust">waiter</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation accessor dot rust">.</span>await<span class="punctuation terminator rust">;</span>
+            </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
+        </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+    </span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
+
+    <span class="support macro rust">println!</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="string quoted double rust"><span class="punctuation definition string begin rust">&quot;</span>Running<span class="punctuation definition string end rust">&quot;</span></span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+    exec<span class="punctuation accessor dot rust">.</span><span class="support function rust">run</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+    <span class="support macro rust">println!</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="string quoted double rust"><span class="punctuation definition string begin rust">&quot;</span>Done<span class="punctuation definition string end rust">&quot;</span></span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span><span class="punctuation terminator rust">;</span>
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+</span></td></pre></tr></tbody></table></div><h2 id="end-notes">End notes</h2>
+<p>One of the nice things about the <code>async</code>/<code>await</code> support in the Rust compiler
+is that it does not depend on any specific run-time. Thus, if you commit to
+certain run-time, you are free to implement your own executor.</p>
+<p>Independency of run-time has its downsides. For example, the library presented
+here is not compatible with other run-times such as
+<a href="https://docs.rs/async-std"><code>async-std</code></a>. And in fact, the implementation
+violates the interface intended for the <code>Future</code>'s <code>poll</code> function by assuming
+that the <code>Future</code> will always be <code>Ready</code> after it was <code>Pending</code>.</p>
+<p>Combined uses of several run-times in a single program is possible but requires
+extra care (see <a href="https://www.reddit.com/r/rust/comments/eagjyf/using_libraries_depending_on_different_async/">Reddit
+discussion</a>).</p>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <div class="post-footer">
+        
+            
+                <div class="post-tags">
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;rust&#x2F;">#Rust</a>
+                    
+                </div>
+            
+            
+                <div class="post-nav">
+                    
+                        <a class="previous" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;how-to-easily-patch-fedora-packages&#x2F;">‹ How to Easily Patch Fedora Packages</a>
+                    
+                    
+                        <a class="next" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;tracking-linux-kernel-sources-of-distributions&#x2F;">Tracking Linux Kernel Sources of Distributions ›</a>
+                    
+                    
+                    
+                </div>
+            
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+
+                </div>
+            </main>
+
+            
+            
+        </div>
+
+      
+          <script type="text/javascript" src="https:&#x2F;&#x2F;blog.aloni.org&#x2F;even.js" ></script>
+      
+
+      
+      
+      <hr />
+      <div style="text-align: center">
+	  © 2010-2020, Dan Aloni <a href="mailto:alonid@gmail.com">✉</a>
+      </div>
+      
+      
+    </body>
+
+</html>

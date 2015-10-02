@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      
+	  <!-- Global site tag (gtag.js) - Google Analytics -->
+	  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35403825-1"></script>
+	  <script>
+	    window.dataLayer = window.dataLayer || [];
+	    function gtag(){dataLayer.push(arguments);}
+	    gtag('js', new Date());
+
+            gtag('config', 'UA-35403825-1');
+	  </script>
+      
+
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title> - Tracking Linux Kernel Sources of Distributions</title>
+
+      
+
+      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/mathtex-script-type.min.js" integrity="sha384-zWYbd0NBwgTsgIdFKVprSfTh1mbMPe5Hz1X3yY4Sd1h/K1cQoUe36OGwAGz/PcDy" crossorigin="anonymous"></script>
+              
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+                  onload="renderMathInElement(document.body);"></script>
+              
+          
+      
+
+      
+          <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;site.css">
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+          
+      
+
+      
+      
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div id="mobile-navbar" class="mobile-navbar">
+              <div class="mobile-header-logo">
+                <a href="/" class="logo">Dan Aloni&#x27;s blog</a>
+              </div>
+              <div class="mobile-navbar-icon icon-out">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+              <ul class="mobile-menu-list">
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                            Home
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                            Tags
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                            About
+                        </a>
+                    </li>
+                
+		<li class="mobile-menu-item">
+		
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+  	        </li>
+              </ul>
+            </nav>
+
+            <header id="header">
+                <div class="logo">
+		    <a href="https:&#x2F;&#x2F;blog.aloni.org">Dan Aloni&#x27;s blog</a><br>
+		    
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+		</div>
+                <nav class="menu">
+                    <ul>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                                    Home
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                                    Categories
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                                    Tags
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                                    About
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <div class="content" id="mobile-panel">
+                    
+
+
+
+<article class="post">
+    
+    
+
+    
+    <header class="post__header">
+	
+        <h1>
+            <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;tracking-linux-kernel-sources-of-distributions&#x2F;">Tracking Linux Kernel Sources of Distributions</a>
+        </h1>
+	
+        <div class="post__meta">
+            <span class="post__time">2020-02-01</span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+      <p><strong>TL;DR</strong>: I provide easily browsable CentOS kernel sources <a href="https://github.com/kernelim/linux">on
+GitHub</a>.</p>
+<span id="continue-reading"></span>
+<p>When developing Linux-based back-end systems, on some situations it is often
+quite viable to look at <a href="https://www.kernel.org">Linux kernel</a> sources in order
+to understand problems.  This is true for my clients who design high
+performance and critical systems, often with kernel code added.</p>
+<p>However, the source browsing provided by
+<a href="https://elixir.bootlin.com/linux/latest/source">Elixir</a>, though an
+indispensable and easily accessible resource, does not cover the heavily
+patched kernels that enterprise Linux users sometimes use. The clients that
+need to do kernel development usually don't take upstream kernels as a base for
+a good reason - the enterprise-patched kernels are more field-driven and
+heavily patched with fixes and backported features.</p>
+<p>For example, the kernels being maintained by <a href="http://redhat.com">Red Hat</a>,
+contain a large number of
+<a href="https://en.wikipedia.org/wiki/Backporting">backports</a> and changes. Due to
+internal decisions, the sources of these kernels only come as source packages,
+as the GPL does not enforce any kind of source control usage on released code.</p>
+<p>Because companies such as Red Hat are reluctant to look into issues in
+customized and patched kernels, organization that need to use such kernels
+sometimes choose to use the equivalent <a href="https://www.centos.org">CentOS</a> kernels
+with the downside of supporting these kernels themselves, outside of Red Hat,
+where exact Git histories of such kernels is not available.</p>
+<p>In an ideal world, it would have been possible to browse the source of all the
+Linux kernels of distributions in one place. However, the Linux kernel is
+maintained in distribution forks, and the maintainship is fragmented. So to
+compensate, and in order to ease my work, a few years ago I have decided to
+artificially create Git trees that track these kernels release by release.</p>
+<p>This semi-automated work is <a href="https://github.com/kernelim/linux">reachable in
+GitHub</a>. In the future, I may add more
+information to each commit, for example, source RPM change-log entries.  For
+now, it allows to perform diffs between various minor and major kernels
+versions of the distribution kernel, compare the distribution with the upstream
+kernel, and other actions.</p>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <div class="post-footer">
+        
+            
+                <div class="post-tags">
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;linux&#x2F;">#Linux</a>
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;kernel&#x2F;">#Kernel</a>
+                    
+                </div>
+            
+            
+                <div class="post-nav">
+                    
+                        <a class="previous" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;a-stack-less-rust-coroutine-100-loc&#x2F;">‹ A stack-less Rust coroutine library under 100 LoC</a>
+                    
+                    
+                        <a class="next" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;path-trimming-in-rust-nightly&#x2F;">Path Trimming In Nightly Rust ›</a>
+                    
+                    
+                    
+                </div>
+            
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+
+                </div>
+            </main>
+
+            
+            
+        </div>
+
+      
+          <script type="text/javascript" src="https:&#x2F;&#x2F;blog.aloni.org&#x2F;even.js" ></script>
+      
+
+      
+      
+      <hr />
+      <div style="text-align: center">
+	  © 2010-2020, Dan Aloni <a href="mailto:alonid@gmail.com">✉</a>
+      </div>
+      
+      
+    </body>
+
+</html>

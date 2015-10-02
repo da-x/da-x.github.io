@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      
+	  <!-- Global site tag (gtag.js) - Google Analytics -->
+	  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35403825-1"></script>
+	  <script>
+	    window.dataLayer = window.dataLayer || [];
+	    function gtag(){dataLayer.push(arguments);}
+	    gtag('js', new Date());
+
+            gtag('config', 'UA-35403825-1');
+	  </script>
+      
+
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title> - How to Easily Patch Fedora Packages</title>
+
+      
+
+      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/mathtex-script-type.min.js" integrity="sha384-zWYbd0NBwgTsgIdFKVprSfTh1mbMPe5Hz1X3yY4Sd1h/K1cQoUe36OGwAGz/PcDy" crossorigin="anonymous"></script>
+              
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+                  onload="renderMathInElement(document.body);"></script>
+              
+          
+      
+
+      
+          <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;site.css">
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+          
+      
+
+      
+      
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div id="mobile-navbar" class="mobile-navbar">
+              <div class="mobile-header-logo">
+                <a href="/" class="logo">Dan Aloni&#x27;s blog</a>
+              </div>
+              <div class="mobile-navbar-icon icon-out">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+              <ul class="mobile-menu-list">
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                            Home
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                            Tags
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                            About
+                        </a>
+                    </li>
+                
+		<li class="mobile-menu-item">
+		
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+  	        </li>
+              </ul>
+            </nav>
+
+            <header id="header">
+                <div class="logo">
+		    <a href="https:&#x2F;&#x2F;blog.aloni.org">Dan Aloni&#x27;s blog</a><br>
+		    
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+		</div>
+                <nav class="menu">
+                    <ul>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                                    Home
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                                    Categories
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                                    Tags
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                                    About
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <div class="content" id="mobile-panel">
+                    
+
+
+
+<article class="post">
+    
+    
+
+    
+    <header class="post__header">
+	
+        <h1>
+            <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;how-to-easily-patch-fedora-packages&#x2F;">How to Easily Patch Fedora Packages</a>
+        </h1>
+	
+        <div class="post__meta">
+            <span class="post__time">2020-01-14</span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+      <p>While many Linux users are developers, a rather small part of the developers
+feels easy to meddle or extend their distribution's packaging. When there is a
+pending feature from an upstream package, or when there is a bug in a package,
+users usually wait for the distribution maintainers to fix it, or resort to use
+independent solutions such as
+<a href="https://docs.brew.sh/Homebrew-on-Linux">homebrew</a>, for rebuilding upstream
+projects.</p>
+<p>Software packaging in distributions entails dealing with the build system of an
+unknown sub-project, and it is sometimes a learning curve that may deter
+developers from tackling it. Luckily, in <a href="https://getfedora.org/">Fedora
+Linux</a>, we have good tools allowing to deal each
+package's own mess, and make it surprisingly easy to build modified versions.</p>
+<span id="continue-reading"></span><h2 id="obtaining-the-source">Obtaining the source</h2>
+<p>First, we begin by installing several base system package that will assist us
+in dealing with package building:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ sudo dnf install fedpkg make
+</span></td></pre></tr></tbody></table></div>
+<p>Let's say we want to consider a patch or a feature for <code>zsh</code> (<a href="https://en.wikipedia.org/wiki/Z_shell">Z
+shell</a>).</p>
+<p>We need to consider what is the source package project from which the resultant
+binaries were made. It's easy to query the <code>rpm</code> tool for that. Based on a
+filename of an installed package, the name of the source package RPM can be
+revealed. For example:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ rpm -qif /usr/bin/zsh | grep &#39;Source RPM&#39;
+Source RPM  : zsh-5.7.1-4.fc30.src.rpm
+</span></td></pre></tr></tbody></table></div>
+<p>It is not surprising that the source RPM name is <code>zsh</code> too. It may not be the
+case for other packages though.</p>
+<p>Normally, the source package RPM name matches the name of the Git repository in
+which Fedora maintains the scripts that allow building it.  Cloning a source
+package from Fedora's Git server is very easy, and <strong>does not</strong> require
+becoming a Fedora community member or any other credential. For <code>zsh</code>, we can
+perform the following command using <code>fedpkg</code>:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ fedpkg co -a zsh
+Cloning into &#39;zsh&#39;...
+remote: Counting objects: 1023, done.
+remote: Compressing objects: 100% (777/777), done.
+remote: Total 1023 (delta 556), reused 423 (delta 216)
+Receiving objects: 100% (1023/1023), 235.29 KiB | 271.00 KiB/s, done.
+Resolving deltas: 100% (556/556), done.
+</span></td></pre></tr></tbody></table></div>
+<p>For each package, the source for each version of Fedora is maintained in a
+different branch. We can therefore checkout the branch that is matching the
+version of the distribution for which we are building:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ cd zsh
+$ git checkout -b f31 origin/f31
+Branch &#39;f31&#39; set up to track remote branch &#39;f31&#39; from &#39;origin&#39;.
+Switched to a new branch &#39;f31&#39;
+</span></td></pre></tr></tbody></table></div>
+<p>From now on we will invoke <code>fedpkg</code> in the working directory of the package.</p>
+<h2 id="setting-up-a-build-environment">Setting up a build environment</h2>
+<p>Different packages will have varying requirements for a functioning development
+environment. Luckily, Fedora's <code>dnf</code> assists us in bringing in the dependencies
+needed for any of the packages that it can build. This can be done via the <code>dnf builddep</code> command. For our use case, we can bring in <code>zsh</code> dependencies:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ sudo dnf builddep zsh
+</span></td></pre></tr></tbody></table></div><h2 id="directly-building-a-distributable-rpm">Directly building a distributable RPM</h2>
+<p>Before modifying the package, it is worth testing to see if we are able to
+build it correctly even without any modification. The following command will
+try to build the binary RPMs from the current state of the code:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ fedpkg local
+</span></td></pre></tr></tbody></table></div>
+<p>We can observe that the following RPMs have been generated:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ ls -l1 x86_64/ noarch/
+noarch/:
+total 452
+-rw-rw-r--. 1 user user 459748 Jan 14 13:58 zsh-html-5.7.1-4.fc31.noarch.rpm
+
+x86_64/:
+total 5476
+-rw-rw-r--. 1 user user 2999294 Jan 14 13:58 zsh-5.7.1-4.fc31.x86_64.rpm
+-rw-rw-r--. 1 user user 1771784 Jan 14 13:58 zsh-debuginfo-5.7.1-4.fc31.x86_64.rpm
+-rw-rw-r--. 1 user user  829306 Jan 14 13:58 zsh-debugsource-5.7.1-4.fc31.x86_64.rpm
+</span></td></pre></tr></tbody></table></div><h2 id="alternatively-building-the-rpm-in-a-mock-container">Alternatively, building the RPM in a <code>mock</code> container</h2>
+<p>Even before docker containers were popular, Fedora provided us with a tool named <code>mock</code>
+that creates a separate environment for building packages. Thus, it can be
+used to build the package independently of the development environment.</p>
+<p>First, we need to make sure that <code>mock</code> is installed.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ sudo dnf install mock
+</span></td></pre></tr></tbody></table></div>
+<p>Then, we can tell <code>fedpkg</code> to use <code>mock</code> in order to build the package:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ fedpkg mockbuild
+</span></td></pre></tr></tbody></table></div>
+<p>The build outputs of <code>mock</code> are all moved to a directory containing the log
+files of the build, and the version and name of the package:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ ls -lR results_zsh/*/*
+results_zsh/5.7.1/4.fc31:
+total 9852
+-rw-rw-r--. 1 user user  190779 Jan 14 14:10 build.log
+-rw-rw-r--. 1 user user    2744 Jan 14 14:03 hw_info.log
+-rw-rw-r--. 1 user user   52642 Jan 14 14:08 installed_pkgs.log
+-rw-rw-r--. 1 user user  614047 Jan 14 14:10 root.log
+-rw-rw-r--. 1 user user     998 Jan 14 14:10 state.log
+-rw-r--r--. 1 user mock 3146067 Jan 14 14:06 zsh-5.7.1-4.fc31.src.rpm
+-rw-r--r--. 1 user mock 2999346 Jan 14 14:10 zsh-5.7.1-4.fc31.x86_64.rpm
+-rw-r--r--. 1 user mock 1772488 Jan 14 14:10 zsh-debuginfo-5.7.1-4.fc31.x86_64.rpm
+-rw-r--r--. 1 user mock  829174 Jan 14 14:10 zsh-debugsource-5.7.1-4.fc31.x86_64.rpm
+-rw-r--r--. 1 user mock  459682 Jan 14 14:10 zsh-html-5.7.1-4.fc31.noarch.rpm
+</span></td></pre></tr></tbody></table></div>
+<p>Using <code>mock</code> to perform the build has the advantage in so that it verifies that
+the dependencies of the build are properly specified, and it can also be used
+to build for different versions of the distribution on the same machine. It's
+also the working horse behind Fedora's own build servers, and namely
+<a href="https://copr.fedorainfracloud.org">Copr</a>.</p>
+<h2 id="adding-a-patch">Adding a patch</h2>
+<p>To produce a patch for a package, we need the source of the package itself,
+rather than the sources for the Fedora scripts that tell how to build it.</p>
+<p>There are several ways to obtain the source, and one of them is by using
+<code>fedpkg</code>.  We can tell it to create a directory containing the patched sources
+of the package, as they are ready to be built.  This process will execute the
+<code>prep</code> stage of the RPM spec source, and the result will usually be a directory
+directly under our working tree.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ fedpkg prep
+</span></td></pre></tr></tbody></table></div>
+<p>Because Fedora source packages do not assume about the source control aspects
+of upstream projects, they contain just archives of a certain version's source.
+The created directory is not tracked in source control, and if we want to
+modify it, usually it is best to move it aside to a different directory, and
+initialize it with Git. For example:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ mv zsh-5.7.1 ../zsh-5.7.1
+$ cd ../zsh-5.7.1
+$ git init &amp;&amp; git add -f . &amp;&amp; git commit -m &quot;Base version&quot;
+</span></td></pre></tr></tbody></table></div>
+<p>Here, our <code>zsh-5.7.1</code> is only a representation of that Fedora-maintained
+version, that is probably already patched by Fedora to some degree, but it can
+and should be used as a base for our further patching. Though, we may want to
+have a clone of the upstream project, <code>zsh</code> in that case, handy for full Git
+history browsing.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ cd ..
+$ git clone git://git.code.sf.net/p/zsh/code zsh-upstream
+Cloning into &#39;zsh-upstream&#39;...
+remote: Enumerating objects: 94026, done.
+remote: Counting objects: 100% (94026/94026), done.
+remote: Compressing objects: 100% (25128/25128), done.
+remote: Total 94026 (delta 73505), reused 87930 (delta 68487)
+Receiving objects: 100% (94026/94026), 16.60 MiB | 1.07 MiB/s, done.
+Resolving deltas: 100% (73505/73505), done.
+</span></td></pre></tr></tbody></table></div>
+<p>Going back to either of our source clones we can proceed to committing changes and
+generating patches from commits. Here is an example for a trivial patch:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source diff">$ git diff HEAD
+diff --git a/Src/hist.c b/Src/hist.c
+index dbdc1e4..cdb1dd1 100644
+<span class="meta diff header from-file"><span class="meta header from-file diff"><span class="punctuation definition from-file diff">---</span> a/Src/hist.c
+</span></span><span class="meta diff header to-file"><span class="meta header to-file diff"><span class="punctuation definition to-file diff">+++</span> b/Src/hist.c
+</span></span><span class="meta diff range unified"><span class="meta range unified diff"><span class="punctuation definition range diff">@@</span> <span class="meta toc-list line-number diff">-580,7 +580,7</span> <span class="punctuation definition range diff">@@</span> <span class="entity name section diff">histsubchar(int c)</span>
+</span></span>      */
+     lexraw_mark = zshlex_raw_mark(-1);
+
+<span class="markup deleted diff"><span class="punctuation definition deleted diff">-</span>    /* look, no goto&#39;s */
+</span><span class="markup inserted diff"><span class="punctuation definition inserted diff">+</span>    /* look, no goto&#39;s! */
+</span>     if (isfirstch &amp;&amp; c == hatchar) {
+        int gbal = 0;
+
+$ git commit -m &quot;Adding an exclamation mark to Src/hist.c&quot;
+[f31 c00d68b] Adding an exclamation mark to Src/hist.c
+ 2 files changed, 100 insertions(+), 1 deletion(-)
+ create mode 100644 0001-zsh-5.7.1-zle-history-avoid-crash.patch
+
+$ git format-patch HEAD~1 -o ../zsh
+../zsh/0001-Adding-an-exclamation-mark-to-Src-hist.c.patch
+</span></td></pre></tr></tbody></table></div>
+<p>The <code>git format-patch</code> is a handy command that exports Git commits as files,
+and its output can be used as input to the package building process, as the
+packaging standard in Fedora mandates separation of the upstream sources from
+the patches that were made on them.</p>
+<p>Adding the patch files to the Fedora package's source specification may be a
+bit tricky, but after a few times you understand that the packaging format is
+simpler than it may seem at first. In the case of <code>zsh</code>, we only need to specify
+the newly created patch in a <code>Patch&lt;number&gt;: </code> line in the beginning of <code>zsh.spec</code>.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source diff">$ git diff
+diff --git a/zsh.spec b/zsh.spec
+index 0d77f70..0022a90 100644
+<span class="meta diff header from-file"><span class="meta header from-file diff"><span class="punctuation definition from-file diff">---</span> a/zsh.spec
+</span></span><span class="meta diff header to-file"><span class="meta header to-file diff"><span class="punctuation definition to-file diff">+++</span> b/zsh.spec
+</span></span><span class="meta diff range unified"><span class="meta range unified diff"><span class="punctuation definition range diff">@@</span> <span class="meta toc-list line-number diff">-14,6 +14,7</span> <span class="punctuation definition range diff">@@</span> <span class="entity name section diff">Source6: dotzshrc</span>
+</span></span>
+ # make failed searches of history in Zle robust (#1722703)
+ Patch1:  0001-zsh-5.7.1-zle-history-avoid-crash.patch
+<span class="markup inserted diff"><span class="punctuation definition inserted diff">+</span>Patch2:  0001-Adding-an-exclamation-mark-to-Src-hist.c.patch
+</span>
+ BuildRequires: autoconf
+ BuildRequires: coreutils
+</span></td></pre></tr></tbody></table></div>
+<p>Older packages may require some more changes, such as adding extra <code>%patch</code>
+lines further in the file, relating to the aforementioned <code>prep</code> stage.</p>
+<h2 id="identifying-a-patched-package">Identifying a patched package</h2>
+<p>If no other <code>.spec</code> fields are changed, our modified package would appear
+mostly indistinguishable in meta-data from the original package. Usually this
+is not wanted. Therefore, it is best to modify the <code>.spec</code> to include a string
+in the package's <code>Release</code> field. For example:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source diff">diff --git a/zsh.spec b/zsh.spec
+index 0022a90..78c362e 100644
+<span class="meta diff header from-file"><span class="meta header from-file diff"><span class="punctuation definition from-file diff">---</span> a/zsh.spec
+</span></span><span class="meta diff header to-file"><span class="meta header to-file diff"><span class="punctuation definition to-file diff">+++</span> b/zsh.spec
+</span></span><span class="meta diff range unified"><span class="meta range unified diff"><span class="punctuation definition range diff">@@</span> <span class="meta toc-list line-number diff">-1,7 +1,7</span> <span class="punctuation definition range diff">@@</span>
+</span></span> Summary: Powerful interactive shell
+ Name: zsh
+ Version: 5.7.1
+<span class="markup deleted diff"><span class="punctuation definition deleted diff">-</span>Release: 4%{?dist}
+</span><span class="markup inserted diff"><span class="punctuation definition inserted diff">+</span>Release: 4%{?dist}.daloni
+</span> License: MIT
+ URL: http://zsh.sourceforge.net/
+ Source0: https://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.xz
+</span></td></pre></tr></tbody></table></div>
+<p>We can see that following a build, the <code>&lt;name&gt;-&lt;version&gt;-&lt;release&gt;</code> triplet is extended:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ ls -l1 x86_64/ noarch/
+
+noarch/:
+total 452
+-rw-rw-r--. 1 user user 459790 Jan 14 15:15 zsh-html-5.7.1-4.fc31.<span class="sourceMarker">daloni</span>.noarch.rpm
+
+x86_64/:
+total 5476
+-rw-rw-r--. 1 user user 2999482 Jan 14 15:15 zsh-5.7.1-4.fc31.<span class="sourceMarker">daloni</span>.x86_64.rpm
+-rw-rw-r--. 1 user user 1773094 Jan 14 15:15 zsh-debuginfo-5.7.1-4.fc31.<span class="sourceMarker">daloni</span>.x86_64.rpm
+-rw-rw-r--. 1 user user  829124 Jan 14 15:15 zsh-debugsource-5.7.1-4.fc31.<span class="sourceMarker">daloni</span>.x86_64.rpm
+</span></td></pre></tr></tbody></table></div><h2 id="installing-the-package">Installing the package</h2>
+<p>The new packages can be installed via <code>dnf install</code>. Once the patched packages
+are installed, it is easy to spot them by <code>grep</code>-ing over the output of <code>dnf list installed</code> by various means.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ sudo dnf install x86_64/zsh-5.7.1-4.fc31.daloni.x86_64.rpm
+
+$ dnf list installed | grep @@commandline
+zsh.x86_64              5.7.1-4.fc31.daloni                    @@commandline
+
+$ dnf list installed | grep daloni
+zsh.x86_64              5.7.1-4.fc31.daloni                    @@commandline
+</span></td></pre></tr></tbody></table></div><h2 id="avoiding-accidental-overrides-from-a-newer-package-version">Avoiding accidental overrides from a newer package version</h2>
+<p>When Fedora releases newer version of the package, automatic system upgrades
+may override the patched one due to providing a higher version. There are
+several ways to prevent this issue, but the one I prefer is excluding upgrades
+on such packages from <code>dnf</code>'s configuration:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ grep exclude /etc/dnf/dnf.conf
+exclude=zsh
+</span></td></pre></tr></tbody></table></div>
+<p>Furthermore, there are various aspects of dealing with packages that are
+outside the scope of this post. An exercise left for the reader is to create an
+RPM repository containing the patched package, host it on the network, and for
+client machines - devise a repository description file to be placed in
+<code>/etc/yum.repos.d</code>, and configure it to have a higher priority than the
+original distribution packages.</p>
+<h2 id="keep-the-debuginfo">Keep the debuginfo!</h2>
+<p>If a patched package has crashed and generated a corefile, the special
+debuginfo packages that were produced in the build may be handy in examining
+this corefile. Therefore, you may want to keep these debuginfo packages,
+especially because a reproduced build is sometimes difficult to match in
+complete binary compatibility to the original one. This depends on how
+deterministically the package is being built, a matter that is intrinsic to the
+package's own build system.</p>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <div class="post-footer">
+        
+            
+                <div class="post-tags">
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;fedora&#x2F;">#Fedora</a>
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;linux&#x2F;">#Linux</a>
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;packaging&#x2F;">#Packaging</a>
+                    
+                </div>
+            
+            
+                <div class="post-nav">
+                    
+                        <a class="previous" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;symbolic-gradients-with-plain-haskell&#x2F;">‹ Computing Symbolic Gradient Vectors with Plain Haskell</a>
+                    
+                    
+                        <a class="next" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;a-stack-less-rust-coroutine-100-loc&#x2F;">A stack-less Rust coroutine library under 100 LoC ›</a>
+                    
+                    
+                    
+                </div>
+            
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+
+                </div>
+            </main>
+
+            
+            
+        </div>
+
+      
+          <script type="text/javascript" src="https:&#x2F;&#x2F;blog.aloni.org&#x2F;even.js" ></script>
+      
+
+      
+      
+      <hr />
+      <div style="text-align: center">
+	  © 2010-2020, Dan Aloni <a href="mailto:alonid@gmail.com">✉</a>
+      </div>
+      
+      
+    </body>
+
+</html>

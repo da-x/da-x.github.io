@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      
+	  <!-- Global site tag (gtag.js) - Google Analytics -->
+	  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35403825-1"></script>
+	  <script>
+	    window.dataLayer = window.dataLayer || [];
+	    function gtag(){dataLayer.push(arguments);}
+	    gtag('js', new Date());
+
+            gtag('config', 'UA-35403825-1');
+	  </script>
+      
+
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title> - Extending Monads for Debugging in Haskell</title>
+
+      
+
+      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/mathtex-script-type.min.js" integrity="sha384-zWYbd0NBwgTsgIdFKVprSfTh1mbMPe5Hz1X3yY4Sd1h/K1cQoUe36OGwAGz/PcDy" crossorigin="anonymous"></script>
+              
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+                  onload="renderMathInElement(document.body);"></script>
+              
+          
+      
+
+      
+          <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;site.css">
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+          
+      
+
+      
+      
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div id="mobile-navbar" class="mobile-navbar">
+              <div class="mobile-header-logo">
+                <a href="/" class="logo">Dan Aloni&#x27;s blog</a>
+              </div>
+              <div class="mobile-navbar-icon icon-out">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+              <ul class="mobile-menu-list">
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                            Home
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                            Tags
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                            About
+                        </a>
+                    </li>
+                
+		<li class="mobile-menu-item">
+		
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+  	        </li>
+              </ul>
+            </nav>
+
+            <header id="header">
+                <div class="logo">
+		    <a href="https:&#x2F;&#x2F;blog.aloni.org">Dan Aloni&#x27;s blog</a><br>
+		    
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+		</div>
+                <nav class="menu">
+                    <ul>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                                    Home
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                                    Categories
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                                    Tags
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                                    About
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <div class="content" id="mobile-panel">
+                    
+
+
+
+<article class="post">
+    
+    
+
+    
+    <header class="post__header">
+	
+        <h1>
+            <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;extending-monads-for-debugging-in-haskell&#x2F;">Extending Monads for Debugging in Haskell</a>
+        </h1>
+	
+        <div class="post__meta">
+            <span class="post__time">2012-07-02</span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+      <p>One of the nice things about <a href="http://www.haskell.org/haskellwiki/Haskell">Haskell</a> is the ability to extend the class of <a href="http://www.haskell.org/tutorial/monads.html">Monads</a>.</p>
+<span id="continue-reading"></span>
+<p>One of the original purposes of Monads was to describe flow while leaving the implementation of the flow to a later stage. This allows to define what happens as a side effect of the computational steps.</p>
+<p>For example, let's say we have a computation that we would like to debug. If we formulate it algebraically, it would be harder to checks the step of the computation in run-time. So naturally we break the computation into statement-like stages, introducing code to trace the intermediate results in between.</p>
+<p>However, sometimes we would also like to <strong>keep the performance of the 'untraced' computation as it was</strong>. In C++ we can can use templates in order to instantiate two implementations of the computation. In C we would probably use macros trickery of some sort along with static inline functions that define to nothing. In Python we would probably use a global debug variable, the <code>__debug__</code> builtin, or a dedicated logging library.</p>
+<p>In Haskell, this can come naturally as an extension of the Monad class, with the advantage of multiple instantiation. To illustrate, let's extend Monad with MonadDebug:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta import haskell"><span class="keyword other haskell">import</span> <span class="support other module haskell">Control.Monad.Identity</span> <span class="meta declaration exports haskell">(<span class="entity name function haskell">runIdentity</span><span class="punctuation separator comma haskell">,</span> <span class="storage type haskell">Identity</span>)</span></span>
+
+<span class="meta declaration class haskell"><span class="keyword other haskell">class</span> <span class="support class prelude haskell">Monad</span> <span class="variable other generic-type haskell">m</span> =&gt; <span class="entity other inherited-class haskell">MonadDebug</span> <span class="variable other generic-type haskell">m</span> <span class="keyword other haskell">where</span></span>
+<span class="meta function type-declaration haskell">  <span class="entity name function haskell">logDebug</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">String</span> <span class="keyword other arrow haskell">-&gt;</span> <span class="variable other generic-type haskell">m</span> <span class="support constant unit haskell">()</span>
+
+</span><span class="meta declaration instance haskell"><span class="keyword other haskell">instance</span> <span class="storage type haskell">MonadDebug</span> <span class="storage type haskell">IO</span> <span class="keyword other haskell">where</span></span>
+  logDebug s <span class="keyword operator haskell">=</span> putStrLn s
+
+<span class="meta declaration instance haskell"><span class="keyword other haskell">instance</span> <span class="storage type haskell">MonadDebug</span> <span class="storage type haskell">Identity</span> <span class="keyword other haskell">where</span></span>
+  logDebug _ <span class="keyword operator haskell">=</span> return <span class="constant language unit haskell">()</span>
+</span></td></pre></tr></tbody></table></div>
+<p>Those instances make it possible to use class function <code>logDebug</code> directly under IO or under pure computations with the Identity Monad.</p>
+<p>Let's define a sample computation function:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta function type-declaration haskell"><span class="entity name function haskell">computation</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">MonadDebug</span> <span class="variable other generic-type haskell">m</span> <span class="keyword other big-arrow haskell">=&gt;</span> <span class="storage type haskell">Integer</span> <span class="keyword other arrow haskell">-&gt;</span> <span class="storage type haskell">Integer</span> <span class="keyword other arrow haskell">-&gt;</span> <span class="variable other generic-type haskell">m</span> <span class="storage type haskell">Integer</span>
+</span>computation x y <span class="keyword operator haskell">=</span> <span class="keyword control haskell">do</span>
+  <span class="keyword other haskell">let</span> t1 <span class="keyword operator haskell">=</span> x * <span class="constant numeric integer decimal haskell">2</span> <span class="keyword operator haskell">+</span> y
+  logDebug <span class="keyword operator haskell">$</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>Here, t1=<span class="punctuation definition string end haskell">&quot;</span></span> <span class="keyword operator haskell">++</span> (show t1)
+  <span class="keyword other haskell">let</span> t2 <span class="keyword operator haskell">=</span> t1 * <span class="constant numeric integer decimal haskell">3</span> <span class="keyword operator haskell">+</span> x
+  logDebug <span class="keyword operator haskell">$</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>Here, t2=<span class="punctuation definition string end haskell">&quot;</span></span> <span class="keyword operator haskell">++</span> (show t2)
+  <span class="keyword other haskell">let</span> t3 <span class="keyword operator haskell">=</span> t2 * <span class="constant numeric integer decimal haskell">7</span> <span class="keyword operator haskell">-</span> x * x
+  logDebug <span class="keyword operator haskell">$</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>Here, t3=<span class="punctuation definition string end haskell">&quot;</span></span> <span class="keyword operator haskell">++</span> (show t3)
+  return t3
+</span></td></pre></tr></tbody></table></div>
+<p>The type signature for <code>computation</code> is optional, and can be inferred by the compiler, simply because we referenced logDebug under our Monad.</p>
+<p>Now, let's try to use it under the two environments. Here's the code:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta function type-declaration haskell"><span class="entity name function haskell">main</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">IO</span> <span class="support constant unit haskell">()</span>
+</span>main <span class="keyword operator haskell">=</span> <span class="keyword control haskell">do</span>
+  putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>Run computation as pure:<span class="punctuation definition string end haskell">&quot;</span></span>
+  <span class="keyword other haskell">let</span> t <span class="keyword operator haskell">=</span> runIdentity <span class="keyword operator haskell">$</span> computation <span class="constant numeric integer decimal haskell">1</span> <span class="constant numeric integer decimal haskell">2</span>
+  putStr <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>Result: <span class="punctuation definition string end haskell">&quot;</span></span>
+  print t
+  putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span><span class="punctuation definition string end haskell">&quot;</span></span>
+
+  putStrLn <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>Run computation with impure IO logging stages: <span class="punctuation definition string end haskell">&quot;</span></span>
+  t&#39; <span class="keyword operator haskell">&lt;-</span> computation <span class="constant numeric integer decimal haskell">1</span> <span class="constant numeric integer decimal haskell">2</span>
+  putStr <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>Result: <span class="punctuation definition string end haskell">&quot;</span></span>
+  print t&#39;
+</span></td></pre></tr></tbody></table></div>
+<p>Let's try to run it:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain"># runghc test.hs
+Run computation as pure:
+Result: 90
+
+Run computation with impure IO logging stages:
+Here, t1=4
+Here, t2=13
+Here, t3=90
+Result: 90
+</span></td></pre></tr></tbody></table></div>
+<p>The advantage is that the compiler can optimize the pure Identity Monad computation much better compared to the non-pure computation, and we achieve this without using any Haskell constructs that are much sophisticated.</p>
+<p>p.s. A novice reader might also be able to devise MonadDebug instances for the various Monad transformer classes under the cases where MonadIO is the underlying Monad.</p>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <div class="post-footer">
+        
+            
+                <div class="post-tags">
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;haskell&#x2F;">#Haskell</a>
+                    
+                </div>
+            
+            
+                <div class="post-nav">
+                    
+                        <a class="previous" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;success-of-vm-infrastructure-explained-by-historically-crippled-os-design&#x2F;">‹ Success of VM infrastructure explained by historically crippled OS design</a>
+                    
+                    
+                        <a class="next" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;six-principles-of-how-i-write-my-journal&#x2F;">Six Principles of How I Write My Journal ›</a>
+                    
+                    
+                    
+                </div>
+            
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+
+                </div>
+            </main>
+
+            
+            
+        </div>
+
+      
+          <script type="text/javascript" src="https:&#x2F;&#x2F;blog.aloni.org&#x2F;even.js" ></script>
+      
+
+      
+      
+      <hr />
+      <div style="text-align: center">
+	  © 2010-2020, Dan Aloni <a href="mailto:alonid@gmail.com">✉</a>
+      </div>
+      
+      
+    </body>
+
+</html>

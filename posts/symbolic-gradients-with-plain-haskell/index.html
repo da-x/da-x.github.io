@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      
+	  <!-- Global site tag (gtag.js) - Google Analytics -->
+	  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35403825-1"></script>
+	  <script>
+	    window.dataLayer = window.dataLayer || [];
+	    function gtag(){dataLayer.push(arguments);}
+	    gtag('js', new Date());
+
+            gtag('config', 'UA-35403825-1');
+	  </script>
+      
+
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title> - Computing Symbolic Gradient Vectors with Plain Haskell</title>
+
+      
+
+      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/mathtex-script-type.min.js" integrity="sha384-zWYbd0NBwgTsgIdFKVprSfTh1mbMPe5Hz1X3yY4Sd1h/K1cQoUe36OGwAGz/PcDy" crossorigin="anonymous"></script>
+              
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+                  onload="renderMathInElement(document.body);"></script>
+              
+          
+      
+
+      
+          <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;site.css">
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+          
+      
+
+      
+      
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div id="mobile-navbar" class="mobile-navbar">
+              <div class="mobile-header-logo">
+                <a href="/" class="logo">Dan Aloni&#x27;s blog</a>
+              </div>
+              <div class="mobile-navbar-icon icon-out">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+              <ul class="mobile-menu-list">
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                            Home
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                            Tags
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                            About
+                        </a>
+                    </li>
+                
+		<li class="mobile-menu-item">
+		
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+  	        </li>
+              </ul>
+            </nav>
+
+            <header id="header">
+                <div class="logo">
+		    <a href="https:&#x2F;&#x2F;blog.aloni.org">Dan Aloni&#x27;s blog</a><br>
+		    
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+		</div>
+                <nav class="menu">
+                    <ul>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                                    Home
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                                    Categories
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                                    Tags
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                                    About
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <div class="content" id="mobile-panel">
+                    
+
+
+
+<article class="post">
+    
+    
+
+    
+    <header class="post__header">
+	
+        <h1>
+            <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;symbolic-gradients-with-plain-haskell&#x2F;">Computing Symbolic Gradient Vectors with Plain Haskell</a>
+        </h1>
+	
+        <div class="post__meta">
+            <span class="post__time">2016-04-27</span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+      <p>While writing my <a href="/posts/backprop-with-tensorflow">previous post</a>, I was curious how easy it would be to implement <a href="https://www.tensorflow.org">TensorFlow</a>'s automatic differentiation for back propagation. In TensorFlow's web site they call it 'automatic differentiation' but in fact they probably do 'symbolic differentiation', as <a href="http://download.tensorflow.org/paper/whitepaper2015.pdf">mentioned in their white paper</a>. The difference between the two relates to whether the differentiation is done during the original computation or beforehand. It makes sense to do the latter, because then you can maintain a separate computational graph of the back propagation to perform the updates.</p>
+<span id="continue-reading"></span>
+<p>I've looked into this topic in the <a href="https://en.wikipedia.org/wiki/Haskell_(programming_language)">Haskell</a> ecosystem, and found many useful and extensive libraries, namely <a href="https://hackage.haskell.org/package/ad">ad</a> by Edward Kmett. However, to use these libraries or understand many of the blog posts on the subject requires some advanced Haskell, and I was wondering whether one can get going with differentiation using very basic and lean use of Haskell.</p>
+<p><em>So, how easy it would be to compute gradients of single-output functions, using Haskell with only the basic arsenal at our hands?</em></p>
+<h2 id="data-and-imports">Data and imports</h2>
+<p>First, we perform some imports and declare the basic data type to hold our expression tree:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta import haskell"><span class="keyword other haskell">import</span>           <span class="support other module haskell">Control.Monad</span> <span class="meta declaration exports haskell">(<span class="entity name function haskell">forM_</span>)</span></span>
+<span class="meta import haskell"><span class="keyword other haskell">import</span> <span class="keyword other haskell">qualified</span> <span class="support other module haskell">Data.Map</span>      <span class="keyword other haskell">as</span> <span class="support other module haskell">Map</span></span>
+
+<span class="keyword other haskell">data</span> <span class="constant other haskell">Expr</span>
+   <span class="keyword operator haskell">=</span> <span class="constant other haskell">Term</span> <span class="constant other haskell">Int</span>       <span class="comment line double-dash haskell"><span class="punctuation definition comment haskell">--</span> &#39;Term 0&#39; is x0, &#39;Term 1&#39; is x1, etc..
+</span>   <span class="keyword operator haskell">|</span> <span class="constant other haskell">Lit</span> <span class="constant other haskell">Float</span>      <span class="comment line double-dash haskell"><span class="punctuation definition comment haskell">--</span> Constant numbers
+</span>   <span class="keyword operator haskell">|</span> <span class="constant other haskell">Neg</span> <span class="constant other haskell">Expr</span>       <span class="comment line double-dash haskell"><span class="punctuation definition comment haskell">--</span> -f
+</span>   <span class="keyword operator haskell">|</span> <span class="constant other haskell">Mul</span> <span class="constant other haskell">Expr</span> <span class="constant other haskell">Expr</span>  <span class="comment line double-dash haskell"><span class="punctuation definition comment haskell">--</span> a + b
+</span>   <span class="keyword operator haskell">|</span> <span class="constant other haskell">Add</span> <span class="constant other haskell">Expr</span> <span class="constant other haskell">Expr</span>  <span class="comment line double-dash haskell"><span class="punctuation definition comment haskell">--</span> a * b
+</span>   <span class="keyword operator haskell">|</span> <span class="constant other haskell">Sin</span> <span class="constant other haskell">Expr</span>       <span class="comment line double-dash haskell"><span class="punctuation definition comment haskell">--</span> sin a
+</span>   <span class="keyword operator haskell">|</span> <span class="constant other haskell">Cos</span> <span class="constant other haskell">Expr</span>       <span class="comment line double-dash haskell"><span class="punctuation definition comment haskell">--</span> cos a
+</span>   <span class="meta deriving haskell"><span class="keyword other haskell">deriving</span> (<span class="entity other inherited-class haskell">Show</span>, <span class="entity other inherited-class haskell">Eq</span>, <span class="entity other inherited-class haskell">Ord</span>)</span>
+</span></td></pre></tr></tbody></table></div>
+<p>We shall be able to derive symbolic gradients for any function built with this data type.</p>
+<h2 id="poor-man-s-pretty-printing">Poor man's pretty-printing</h2>
+<p>One cannot go by without a nice String representation:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta function type-declaration haskell"><span class="entity name function haskell">fshow</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">Expr</span> <span class="keyword other arrow haskell">-&gt;</span> <span class="storage type haskell">String</span>
+</span>fshow (<span class="constant other haskell">Term</span> v)    <span class="keyword operator haskell">=</span> concat [<span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>x<span class="punctuation definition string end haskell">&quot;</span></span><span class="punctuation separator comma haskell">,</span> show v]
+fshow (<span class="constant other haskell">Lit</span> v)     <span class="keyword operator haskell">=</span> show v
+fshow (<span class="constant other haskell">Mul</span> e1 e2) <span class="keyword operator haskell">=</span> concat [<span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>(<span class="punctuation definition string end haskell">&quot;</span></span><span class="punctuation separator comma haskell">,</span> fshow e1<span class="punctuation separator comma haskell">,</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span> * <span class="punctuation definition string end haskell">&quot;</span></span><span class="punctuation separator comma haskell">,</span> fshow e2<span class="punctuation separator comma haskell">,</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>)<span class="punctuation definition string end haskell">&quot;</span></span>]
+fshow (<span class="constant other haskell">Add</span> e1 e2) <span class="keyword operator haskell">=</span> concat [<span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>(<span class="punctuation definition string end haskell">&quot;</span></span><span class="punctuation separator comma haskell">,</span> fshow e1<span class="punctuation separator comma haskell">,</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span> + <span class="punctuation definition string end haskell">&quot;</span></span><span class="punctuation separator comma haskell">,</span> fshow e2<span class="punctuation separator comma haskell">,</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>)<span class="punctuation definition string end haskell">&quot;</span></span>]
+fshow (<span class="constant other haskell">Neg</span> e)     <span class="keyword operator haskell">=</span> concat [<span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>-(<span class="punctuation definition string end haskell">&quot;</span></span><span class="punctuation separator comma haskell">,</span> fshow e<span class="punctuation separator comma haskell">,</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>)<span class="punctuation definition string end haskell">&quot;</span></span>]
+fshow (<span class="constant other haskell">Sin</span> e)     <span class="keyword operator haskell">=</span> concat [<span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>sin(<span class="punctuation definition string end haskell">&quot;</span></span><span class="punctuation separator comma haskell">,</span> fshow e<span class="punctuation separator comma haskell">,</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>)<span class="punctuation definition string end haskell">&quot;</span></span>]
+fshow (<span class="constant other haskell">Cos</span> e)     <span class="keyword operator haskell">=</span> concat [<span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>cos(<span class="punctuation definition string end haskell">&quot;</span></span><span class="punctuation separator comma haskell">,</span> fshow e<span class="punctuation separator comma haskell">,</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>)<span class="punctuation definition string end haskell">&quot;</span></span>]
+</span></td></pre></tr></tbody></table></div>
+<p>This implementation is basic in so that a sequence of summations will bear a horrible representation similar to <code>(x1 + (x2 + (x3 + (...))))</code> - however it's enough to get us going.</p>
+<h2 id="sample">Sample</h2>
+<p>The <a href="https://en.wikipedia.org/wiki/Automatic_differentiation">Wikipedia page for Automatic Differentiation</a> demonstrates with the following function:</p>
+<p>$$
+f(x_1, x_2) = \sin x_1 + x_1x_2
+$$</p>
+<p>It should be easy enough to represent it with our Haskell data, and use <code>fshow</code> from above:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell">λ<span class="keyword operator haskell">&gt;</span> <span class="keyword other haskell">let</span> wikipediaFunc <span class="keyword operator haskell">=</span> (<span class="constant other haskell">Sin</span> (<span class="constant other haskell">Term</span> <span class="constant numeric integer decimal haskell">1</span>)) <span class="keyword operator function infix haskell"><span class="punctuation definition entity haskell">`</span>Add<span class="punctuation definition entity haskell">`</span></span> ((<span class="constant other haskell">Term</span> <span class="constant numeric integer decimal haskell">1</span>) <span class="keyword operator function infix haskell"><span class="punctuation definition entity haskell">`</span>Mul<span class="punctuation definition entity haskell">`</span></span> (<span class="constant other haskell">Term</span> <span class="constant numeric integer decimal haskell">2</span>))
+
+λ<span class="keyword operator haskell">&gt;</span> fshow wikipediaFunc
+<span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>(sin(x1) + (x1 * x2))<span class="punctuation definition string end haskell">&quot;</span></span>
+</span></td></pre></tr></tbody></table></div><h2 id="gradient">Gradient</h2>
+<p>The <code>gradient</code> function below takes an expression, and returns a map from each term number to the expression that computes it. The definition of the function is recursive and based on known simple derivation rules:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta function type-declaration haskell"><span class="entity name function haskell">gradient</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">Expr</span> <span class="keyword other arrow haskell">-&gt;</span> <span class="storage type haskell">Map</span>.<span class="storage type haskell">Map</span> <span class="storage type haskell">Int</span> <span class="storage type haskell">Expr</span>
+</span>gradient (<span class="constant other haskell">Neg</span> e)     <span class="keyword operator haskell">=</span> <span class="constant other haskell">Map</span><span class="keyword operator haskell">.</span>map <span class="constant other haskell">Neg</span> (gradient e)
+gradient (<span class="constant other haskell">Cos</span> e)     <span class="keyword operator haskell">=</span> <span class="constant other haskell">Map</span><span class="keyword operator haskell">.</span>map (<span class="constant other haskell">Mul</span> (<span class="constant other haskell">Neg</span> (<span class="constant other haskell">Sin</span> e))) (gradient e)
+gradient (<span class="constant other haskell">Sin</span> e)     <span class="keyword operator haskell">=</span> <span class="constant other haskell">Map</span><span class="keyword operator haskell">.</span>map (<span class="constant other haskell">Mul</span> (<span class="constant other haskell">Cos</span> e)) (gradient e)
+gradient (<span class="constant other haskell">Term</span> i)    <span class="keyword operator haskell">=</span> <span class="constant other haskell">Map</span><span class="keyword operator haskell">.</span>fromList [(i<span class="punctuation separator comma haskell">,</span> <span class="constant other haskell">Lit</span> <span class="constant numeric float decimal haskell">1<span class="punctuation separator decimal haskell">.</span>0</span>)]
+gradient (<span class="constant other haskell">Lit</span> _)     <span class="keyword operator haskell">=</span> <span class="constant other haskell">Map</span><span class="keyword operator haskell">.</span>empty
+gradient (<span class="constant other haskell">Add</span> e1 e2) <span class="keyword operator haskell">=</span> <span class="constant other haskell">Map</span><span class="keyword operator haskell">.</span>unionWith <span class="constant other haskell">Add</span> (gradient e1) (gradient e2)
+gradient (<span class="constant other haskell">Mul</span> e1 e2) <span class="keyword operator haskell">=</span> <span class="constant other haskell">Map</span><span class="keyword operator haskell">.</span>unionWith <span class="constant other haskell">Add</span> (<span class="constant other haskell">Map</span><span class="keyword operator haskell">.</span>map (<span class="constant other haskell">Mul</span> e2) (gradient e1))
+                                         (<span class="constant other haskell">Map</span><span class="keyword operator haskell">.</span>map (<span class="constant other haskell">Mul</span> e1) (gradient e2))
+</span></td></pre></tr></tbody></table></div>
+<p>The interesting parts are where <code>Map.unionWith</code> is used for addition and multiplication. Notice how easily the <code>Mul</code> part relates to the known derivation rule:</p>
+<p>$$(f(x)g(x))' = g(x)f'(x) + g'(x)f(x)$$</p>
+<p>The documentation for <a href="https://hackage.haskell.org/package/containers/docs/Data-Map-Strict.html">Data.Map</a> can tell about <code>Map.map</code> and <code>Map.unionWith</code>.</p>
+<h2 id="small-helpers">Small helpers</h2>
+<p>Before testing it, we'll add just two helper functions. The first function simplifies expressions by getting rid of the $1.0$ literals we have added.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta function type-declaration haskell"><span class="entity name function haskell">simplify</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">Expr</span> <span class="keyword other arrow haskell">-&gt;</span> <span class="storage type haskell">Expr</span>
+</span>simplify (<span class="constant other haskell">Mul</span> (<span class="constant other haskell">Lit</span> <span class="constant numeric float decimal haskell">1<span class="punctuation separator decimal haskell">.</span>0</span>) e) <span class="keyword operator haskell">=</span> simplify e
+simplify (<span class="constant other haskell">Mul</span> e (<span class="constant other haskell">Lit</span> <span class="constant numeric float decimal haskell">1<span class="punctuation separator decimal haskell">.</span>0</span>)) <span class="keyword operator haskell">=</span> simplify e
+simplify (<span class="constant other haskell">Add</span> e1 e2) <span class="keyword operator haskell">=</span> <span class="constant other haskell">Add</span> (simplify e1) (simplify e2)
+simplify (<span class="constant other haskell">Mul</span> e1 e2) <span class="keyword operator haskell">=</span> <span class="constant other haskell">Mul</span> (simplify e1) (simplify e2)
+simplify e <span class="keyword operator haskell">=</span> e
+</span></td></pre></tr></tbody></table></div>
+<p>The second function will do all the work at the program's top level to compute the gradient and print it:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="meta function type-declaration haskell"><span class="entity name function haskell">showGradient</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">Expr</span> <span class="keyword other arrow haskell">-&gt;</span> <span class="storage type haskell">IO</span> <span class="support constant unit haskell">()</span>
+</span>showGradient func <span class="keyword operator haskell">=</span> <span class="keyword control haskell">do</span>
+    putStrLn <span class="keyword operator haskell">$</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>f(..) = <span class="punctuation definition string end haskell">&quot;</span></span> <span class="keyword operator haskell">++</span> fshow func
+
+    forM_ (<span class="constant other haskell">Map</span><span class="keyword operator haskell">.</span>toList <span class="keyword operator haskell">$</span> gradient func) <span class="keyword operator haskell">$</span> <span class="keyword operator haskell">\</span>(k<span class="punctuation separator comma haskell">,</span> v) <span class="keyword operator haskell">-&gt;</span> <span class="keyword control haskell">do</span>
+        putStrLn <span class="keyword operator haskell">$</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span>∂f / ∂<span class="punctuation definition string end haskell">&quot;</span></span> <span class="keyword operator haskell">++</span> fshow (<span class="constant other haskell">Term</span> k) <span class="keyword operator haskell">++</span> <span class="string quoted double haskell"><span class="punctuation definition string begin haskell">&quot;</span> = <span class="punctuation definition string end haskell">&quot;</span></span> <span class="keyword operator haskell">++</span> (fshow <span class="keyword operator haskell">.</span> simplify) v
+</span></td></pre></tr></tbody></table></div><h2 id="does-it-work">Does it work?</h2>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="keyword operator haskell">&gt;</span> showGradient wikipediaFunc
+
+f<span class="entity name function infix haskell">(..)</span> <span class="keyword operator haskell">=</span> (sin(x1) <span class="keyword operator haskell">+</span> (x1 * x2))
+∂f <span class="keyword operator haskell">/</span> ∂x1 <span class="keyword operator haskell">=</span> (cos(x1) <span class="keyword operator haskell">+</span> x2)
+∂f <span class="keyword operator haskell">/</span> ∂x2 <span class="keyword operator haskell">=</span> x1
+</span></td></pre></tr></tbody></table></div>
+<p>Looks that it does. We have arrived at the same results as Wikipedia.</p>
+<script type="math/tex;mode=display">\begin{aligned}
+& \frac{∂ f}{∂ x_1} = \cos x_1 + x_2 \\
+& \frac{∂ f}{∂ x_2} = x_1 \\
+\end{aligned}</script>
+<p>Will it work with something more complex?</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source haskell"><span class="keyword operator haskell">&gt;</span> showGradient (<span class="constant other haskell">Sin</span> (<span class="constant other haskell">Mul</span> (<span class="constant other haskell">Term</span> <span class="constant numeric integer decimal haskell">2</span> <span class="keyword operator function infix haskell"><span class="punctuation definition entity haskell">`</span>Add<span class="punctuation definition entity haskell">`</span></span> <span class="constant other haskell">Lit</span> <span class="constant numeric float decimal haskell">5<span class="punctuation separator decimal haskell">.</span>1</span>) <span class="keyword operator haskell">$</span> <span class="constant other haskell">Cos</span> (<span class="constant other haskell">Term</span> <span class="constant numeric integer decimal haskell">1</span>))) <span class="keyword operator function infix haskell"><span class="punctuation definition entity haskell">`</span>Mul<span class="punctuation definition entity haskell">`</span></span> (<span class="constant other haskell">Term</span> <span class="constant numeric integer decimal haskell">1</span>) <span class="keyword operator function infix haskell"><span class="punctuation definition entity haskell">`</span>Mul<span class="punctuation definition entity haskell">`</span></span> (<span class="constant other haskell">Term</span> <span class="constant numeric integer decimal haskell">3</span>)
+
+f<span class="entity name function infix haskell">(..)</span> <span class="keyword operator haskell">=</span> ((sin(((x2 <span class="keyword operator haskell">+</span> <span class="constant numeric float decimal haskell">5<span class="punctuation separator decimal haskell">.</span>1</span>) * cos(x1))) * x1) * x3)
+∂f <span class="keyword operator haskell">/</span> ∂x1 <span class="keyword operator haskell">=</span> (x3 * ((x1 * (cos(((x2 <span class="keyword operator haskell">+</span> <span class="constant numeric float decimal haskell">5<span class="punctuation separator decimal haskell">.</span>1</span>) * cos(x1))) * ((x2 <span class="keyword operator haskell">+</span> <span class="constant numeric float decimal haskell">5<span class="punctuation separator decimal haskell">.</span>1</span>) * <span class="keyword operator haskell">-</span>(sin(x1))))) <span class="keyword operator haskell">+</span> sin(((x2 <span class="keyword operator haskell">+</span> <span class="constant numeric float decimal haskell">5<span class="punctuation separator decimal haskell">.</span>1</span>) * cos(x1)))))
+∂f <span class="keyword operator haskell">/</span> ∂x2 <span class="keyword operator haskell">=</span> (x3 * (x1 * (cos(((x2 <span class="keyword operator haskell">+</span> <span class="constant numeric float decimal haskell">5<span class="punctuation separator decimal haskell">.</span>1</span>) * cos(x1))) * cos(x1))))
+∂f <span class="keyword operator haskell">/</span> ∂x3 <span class="keyword operator haskell">=</span> (sin(((x2 <span class="keyword operator haskell">+</span> <span class="constant numeric float decimal haskell">5<span class="punctuation separator decimal haskell">.</span>1</span>) * cos(x1))) * x1)
+</span></td></pre></tr></tbody></table></div>
+<p>Comparing with <a href="https://www.wolframalpha.com/input/?i=derive+((sin(((x2+%2B+5.1)+*+cos(x1)))+*+x1)+*+x3)">Wolfram Alpha</a>, it seems to get it right.</p>
+<h2 id="end-note">End note</h2>
+<p>Advance extensions of what I illustrated here can add a considerable amount of functionality and ease of use. We will definitely need to support matrices for instance, if we would like to derive a back-propagation graph. You can browse the <a href="https://hackage.haskell.org/package/ad">ad</a> package to get some ideas.</p>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <div class="post-footer">
+        
+            
+                <div class="post-tags">
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;ml&#x2F;">#ML</a>
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;haskell&#x2F;">#Haskell</a>
+                    
+                </div>
+            
+            
+                <div class="post-nav">
+                    
+                        <a class="previous" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;backprop-with-tensorflow&#x2F;">‹ Back Propagation with TensorFlow</a>
+                    
+                    
+                        <a class="next" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;how-to-easily-patch-fedora-packages&#x2F;">How to Easily Patch Fedora Packages ›</a>
+                    
+                    
+                    
+                </div>
+            
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+
+                </div>
+            </main>
+
+            
+            
+        </div>
+
+      
+          <script type="text/javascript" src="https:&#x2F;&#x2F;blog.aloni.org&#x2F;even.js" ></script>
+      
+
+      
+      
+      <hr />
+      <div style="text-align: center">
+	  © 2010-2020, Dan Aloni <a href="mailto:alonid@gmail.com">✉</a>
+      </div>
+      
+      
+    </body>
+
+</html>

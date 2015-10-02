@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      
+	  <!-- Global site tag (gtag.js) - Google Analytics -->
+	  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35403825-1"></script>
+	  <script>
+	    window.dataLayer = window.dataLayer || [];
+	    function gtag(){dataLayer.push(arguments);}
+	    gtag('js', new Date());
+
+            gtag('config', 'UA-35403825-1');
+	  </script>
+      
+
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title> - Bash #2 - Functional Command Relay</title>
+
+      
+
+      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/mathtex-script-type.min.js" integrity="sha384-zWYbd0NBwgTsgIdFKVprSfTh1mbMPe5Hz1X3yY4Sd1h/K1cQoUe36OGwAGz/PcDy" crossorigin="anonymous"></script>
+              
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+                  onload="renderMathInElement(document.body);"></script>
+              
+          
+      
+
+      
+          <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;site.css">
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+          
+      
+
+      
+      
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div id="mobile-navbar" class="mobile-navbar">
+              <div class="mobile-header-logo">
+                <a href="/" class="logo">Dan Aloni&#x27;s blog</a>
+              </div>
+              <div class="mobile-navbar-icon icon-out">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+              <ul class="mobile-menu-list">
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                            Home
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                            Tags
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                            About
+                        </a>
+                    </li>
+                
+		<li class="mobile-menu-item">
+		
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+  	        </li>
+              </ul>
+            </nav>
+
+            <header id="header">
+                <div class="logo">
+		    <a href="https:&#x2F;&#x2F;blog.aloni.org">Dan Aloni&#x27;s blog</a><br>
+		    
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+		</div>
+                <nav class="menu">
+                    <ul>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                                    Home
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                                    Categories
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                                    Tags
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                                    About
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <div class="content" id="mobile-panel">
+                    
+
+
+
+<article class="post">
+    
+    
+
+    
+    <header class="post__header">
+	
+        <h1>
+            <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;bash-functional-command-relay&#x2F;">Bash #2 - Functional Command Relay</a>
+        </h1>
+	
+        <div class="post__meta">
+            <span class="post__time">2021-04-26</span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+      <p>In software projects, often would appear a 'scripts' directory with various
+scripting utilities. The unexperienced <code>bash</code> script writer would usually
+litter up the directory with many execution entry points such as:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">build.sh
+run.sh
+deploy.sh
+</span></td></pre></tr></tbody></table></div>
+<p>If we would like to clean this up and combines these functions to a single
+file, say <code>command.sh</code>, how one would do so?</p>
+<span id="continue-reading"></span>
+<p>A nice way to accomplish this is the following:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source shell bash"><span class="comment line number-sign shell"><span class="punctuation definition comment begin shell">#</span></span><span class="comment line number-sign shell">!/bin/bash</span><span class="comment line number-sign shell">
+</span>
+<span class="comment line number-sign shell"><span class="punctuation definition comment begin shell">#</span></span><span class="comment line number-sign shell"> ... common code here ...</span><span class="comment line number-sign shell">
+</span>
+<span class="meta function shell"><span class="entity name function shell">build</span><span class="punctuation section parens begin shell">(</span><span class="punctuation section parens end shell">)</span> <span class="punctuation section braces begin shell">{</span>
+    <span class="comment line number-sign shell"><span class="punctuation definition comment begin shell">#</span></span><span class="comment line number-sign shell"> Original content and logic of bash.sh</span><span class="comment line number-sign shell">
+</span><span class="punctuation section braces end shell">}</span></span>
+
+<span class="meta function shell"><span class="entity name function shell">run</span><span class="punctuation section parens begin shell">(</span><span class="punctuation section parens end shell">)</span> <span class="punctuation section braces begin shell">{</span>
+    <span class="comment line number-sign shell"><span class="punctuation definition comment begin shell">#</span></span><span class="comment line number-sign shell"> Original content and logic of run.sh</span><span class="comment line number-sign shell">
+</span><span class="punctuation section braces end shell">}</span></span>
+
+<span class="meta function shell"><span class="entity name function shell">deploy</span><span class="punctuation section parens begin shell">(</span><span class="punctuation section parens end shell">)</span> <span class="punctuation section braces begin shell">{</span>
+    <span class="comment line number-sign shell"><span class="punctuation definition comment begin shell">#</span></span><span class="comment line number-sign shell"> Original content and logic of deploy.sh</span><span class="comment line number-sign shell">
+</span><span class="punctuation section braces end shell">}</span></span>
+
+<span class="meta function-call shell"><span class="variable function shell"><span class="string quoted double shell"><span class="punctuation definition string begin shell">&quot;</span><span class="meta group expansion parameter shell"><span class="punctuation definition variable shell">$</span><span class="variable language shell">@</span></span><span class="punctuation definition string end shell">&quot;</span></span></span></span>
+</span></td></pre></tr></tbody></table></div>
+<p>(for clarification regarding <code>&quot;$@&quot;</code>, see the previous post regarding <a href="/posts/bash-execution-relay/">execution relay</a>)</p>
+<p>I call this method the Functional Command Relay pattern, as it allows execution
+of each function with the parameters to these functions relayed as-is.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ ./command.sh build &lt;params&gt;
+&lt;output of the original build logic&gt;
+</span></td></pre></tr></tbody></table></div>
+<p>We can choose how strict we are with the first parameter. For example, by replacing
+the last <code>&quot;$@&quot;</code> line with the following:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source shell bash"><span class="meta conditional case shell"><span class="keyword control conditional case shell">case</span> <span class="meta group expansion parameter shell"><span class="punctuation definition variable shell">$</span><span class="variable other readwrite shell">1</span></span> <span class="keyword control in shell">in</span>
+    <span class="meta conditional case clause patterns shell">build<span class="keyword operator logical shell">|</span>run<span class="keyword operator logical shell">|</span>deploy<span class="keyword control conditional patterns end shell">)</span></span><span class="meta conditional case clause commands shell"> <span class="meta function-call shell"><span class="variable function shell"><span class="string quoted double shell"><span class="punctuation definition string begin shell">&quot;</span><span class="meta group expansion parameter shell"><span class="punctuation definition variable shell">$</span><span class="variable language shell">@</span></span><span class="punctuation definition string end shell">&quot;</span></span></span></span> </span><span class="meta conditional case clause commands shell"><span class="punctuation terminator case clause shell">;;</span></span>
+    <span class="meta conditional case clause patterns shell"><span class="string quoted single shell"><span class="punctuation definition string begin shell">&#39;</span><span class="punctuation definition string end shell">&#39;</span></span><span class="keyword control conditional patterns end shell">)</span></span><span class="meta conditional case clause commands shell"> <span class="meta function-call shell"><span class="variable function shell">print_help</span></span><span class="keyword operator logical continue shell">;</span> <span class="meta function-call shell"><span class="support function exit shell">exit</span></span><span class="meta function-call arguments shell"> -1</span> </span><span class="meta conditional case clause commands shell"><span class="punctuation terminator case clause shell">;;</span></span>
+    <span class="meta conditional case clause patterns shell"><span class="keyword operator regexp quantifier shell">*</span><span class="keyword control conditional patterns end shell">)</span></span><span class="meta conditional case clause commands shell"> <span class="meta function-call shell"><span class="support function echo shell">echo</span></span><span class="meta function-call arguments shell"> <span class="string quoted double shell"><span class="punctuation definition string begin shell">&quot;</span>Invalid command &#39;<span class="meta group expansion parameter shell"><span class="punctuation definition variable shell">$</span><span class="variable other readwrite shell">1</span></span>&#39;<span class="punctuation definition string end shell">&quot;</span></span></span> <span class="keyword operator logical continue shell">;</span> <span class="meta function-call shell"><span class="support function exit shell">exit</span></span><span class="meta function-call arguments shell"> -1</span> </span><span class="meta conditional case clause commands shell"><span class="punctuation terminator case clause shell">;;</span></span>
+<span class="keyword control conditional end shell">esac</span></span>
+</span></td></pre></tr></tbody></table></div>
+<p>Worth to mention that the under-utilized function concept in <code>bash</code> is more
+powerful that it may seem at first.</p>
+<p>The functions behave like mini-scripts in the same manner that original scripts
+would behave, and similar to &quot;real&quot; executable programs that are already
+reachable from <code>$PATH</code>. For instance, it is possible to use <code>echo</code> for output
+and have use functions as components in shell pipes.</p>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <div class="post-footer">
+        
+            
+                <div class="post-tags">
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;bash&#x2F;">#bash</a>
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;shell&#x2F;">#shell</a>
+                    
+                </div>
+            
+            
+                <div class="post-nav">
+                    
+                        <a class="previous" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;bash-execution-relay&#x2F;">‹ Bash #1 - Execution Relay</a>
+                    
+                    
+                    
+                    
+                </div>
+            
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+
+                </div>
+            </main>
+
+            
+            
+        </div>
+
+      
+          <script type="text/javascript" src="https:&#x2F;&#x2F;blog.aloni.org&#x2F;even.js" ></script>
+      
+
+      
+      
+      <hr />
+      <div style="text-align: center">
+	  © 2010-2020, Dan Aloni <a href="mailto:alonid@gmail.com">✉</a>
+      </div>
+      
+      
+    </body>
+
+</html>

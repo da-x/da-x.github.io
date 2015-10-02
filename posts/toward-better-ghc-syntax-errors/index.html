@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      
+	  <!-- Global site tag (gtag.js) - Google Analytics -->
+	  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35403825-1"></script>
+	  <script>
+	    window.dataLayer = window.dataLayer || [];
+	    function gtag(){dataLayer.push(arguments);}
+	    gtag('js', new Date());
+
+            gtag('config', 'UA-35403825-1');
+	  </script>
+      
+
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title> - Toward Better GHC Syntax Errors</title>
+
+      
+
+      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/mathtex-script-type.min.js" integrity="sha384-zWYbd0NBwgTsgIdFKVprSfTh1mbMPe5Hz1X3yY4Sd1h/K1cQoUe36OGwAGz/PcDy" crossorigin="anonymous"></script>
+              
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+                  onload="renderMathInElement(document.body);"></script>
+              
+          
+      
+
+      
+          <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;site.css">
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+          
+      
+
+      
+      
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div id="mobile-navbar" class="mobile-navbar">
+              <div class="mobile-header-logo">
+                <a href="/" class="logo">Dan Aloni&#x27;s blog</a>
+              </div>
+              <div class="mobile-navbar-icon icon-out">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+              <ul class="mobile-menu-list">
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                            Home
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                            Tags
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                            About
+                        </a>
+                    </li>
+                
+		<li class="mobile-menu-item">
+		
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+  	        </li>
+              </ul>
+            </nav>
+
+            <header id="header">
+                <div class="logo">
+		    <a href="https:&#x2F;&#x2F;blog.aloni.org">Dan Aloni&#x27;s blog</a><br>
+		    
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+		</div>
+                <nav class="menu">
+                    <ul>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                                    Home
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                                    Categories
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                                    Tags
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                                    About
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <div class="content" id="mobile-panel">
+                    
+
+
+
+<article class="post">
+    
+    
+
+    
+    <header class="post__header">
+	
+        <h1>
+            <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;toward-better-ghc-syntax-errors&#x2F;">Toward Better GHC Syntax Errors</a>
+        </h1>
+	
+        <div class="post__meta">
+            <span class="post__time">2015-04-06</span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+      <p>As a neophyte to functional programming and <a href="http://www.haskell.org">Haskell</a>, with full appreciation over the succinctly outputted type errors, for a long time I felt something was remiss with the output of syntax errors. In this post I present a preliminary fix to GHC that improves in the aforementioned arena.</p>
+<span id="continue-reading"></span>
+<p>Like many other compilers who have not yet forsaken the annotated BNF approach of describing a syntax and parser, Haskell's prominent compiler <a href="https://www.haskell.org/ghc/">GHC</a> uses <a href="https://www.haskell.org/happy/">Happy</a> in order to generate efficient parsing tables for the syntax.</p>
+<h2 id="the-problem">The problem</h2>
+<p>While there are some hand-coded hints about errors being detected while compiling a module with GHC, other errors sometimes don't provide any extra information.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 1 - source</td></tr><tr><td class="lineNumbers"><div class="lineNumbersDiv"><pre>1
+2
+</pre></div></rd><td class="sourceCode"><pre class="code"><span class="source haskell">test i <span class="keyword operator haskell">=</span> <span class="keyword other haskell">case</span> i <span class="keyword other haskell">of</span> <span class="constant numeric integer decimal haskell">2</span>
+main <span class="keyword operator haskell">=</span> return <span class="constant language unit haskell">()</span>
+</span></td></pre></tr></tbody></table></div><div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 1 - output</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">example1.hs:2:1:
+    parse error (possibly incorrect indentation or mismatched brackets)
+</span></td></pre></tr></tbody></table></div>
+<p>And another example:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 2 - source</td></tr><tr><td class="lineNumbers"><div class="lineNumbersDiv"><pre>1
+2
+3
+4
+</pre></div></rd><td class="sourceCode"><pre class="code"><span class="source haskell">test i <span class="keyword operator haskell">=</span> i
+  <span class="keyword other haskell">where</span> e
+
+main <span class="keyword operator haskell">=</span> return <span class="constant language unit haskell">()</span>
+</span></td></pre></tr></tbody></table></div><div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 2 - output</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">example2.hs:4:1:
+    parse error (possibly incorrect indentation or mismatched brackets)
+</span></td></pre></tr></tbody></table></div>
+<p>As you can see, we have the same error on both occasions. Is it possible to generate an error message that differentiates between the two, automatically? Apparently yes.</p>
+<h2 id="making-it-happier">Making it happier</h2>
+<p>Thanks to the parsing tables, the parser does know which tokens can follow at the place of the error. So, I took the time to <a href="https://github.com/da-x/happy/commits/master">modify Happy</a> and <a href="https://github.com/da-x/ghc/commits/ghc-7.10-with-fixes">modify GHC</a> to produce the following results. The gist of these changes is to allow passing the list of <strong>next possible tokens</strong> to the user-provided error function. The results are not perfect, but they are interesting nonetheless.</p>
+<p>Let's repeat the previous examples and add some more.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 1 - source</td></tr><tr><td class="lineNumbers"><div class="lineNumbersDiv"><pre>1
+2
+</pre></div></rd><td class="sourceCode"><pre class="code"><span class="source haskell">test i <span class="keyword operator haskell">=</span> <span class="keyword other haskell">case</span> i <span class="keyword other haskell">of</span> <span class="constant numeric integer decimal haskell">2</span>
+main <span class="keyword operator haskell">=</span> return <span class="constant language unit haskell">()</span>
+</span></td></pre></tr></tbody></table></div><div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 1 - output</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">example1.hs:2:1:
+    parse error (possibly incorrect indentation or mismatched brackets), possible tokens: &#39;|&#39; &#39;-&gt;&#39;
+</span></td></pre></tr></tbody></table></div>
+<p>And for the second example:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 2 - source</td></tr><tr><td class="lineNumbers"><div class="lineNumbersDiv"><pre>1
+2
+3
+4
+</pre></div></rd><td class="sourceCode"><pre class="code"><span class="source haskell">test i <span class="keyword operator haskell">=</span> i
+  <span class="keyword other haskell">where</span> e
+
+main <span class="keyword operator haskell">=</span> return <span class="constant language unit haskell">()</span>
+</span></td></pre></tr></tbody></table></div><div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 2 - output</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">example2.hs:4:1:
+    parse error (possibly incorrect indentation or mismatched brackets), possible tokens: &#39;=&#39; &#39;|&#39;
+</span></td></pre></tr></tbody></table></div>
+<p>A third example:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 3 - source</td></tr><tr><td class="lineNumbers"><div class="lineNumbersDiv"><pre>1
+2
+3
+4
+</pre></div></rd><td class="sourceCode"><pre class="code"><span class="source haskell"><span class="keyword other haskell">data</span> <span class="constant other haskell">X</span> <span class="keyword operator haskell">=</span> <span class="constant other haskell">X</span> {
+<span class="meta function type-declaration haskell">    <span class="entity name function haskell">bla</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">Int</span>
+</span><span class="meta function type-declaration haskell">    <span class="entity name function haskell">test</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">Int</span>
+</span>  }
+</span></td></pre></tr></tbody></table></div><div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 3 - output</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">example3.hs:3:10:
+    parse error on input, possible tokens: &#39;}&#39; ‘::’
+</span></td></pre></tr></tbody></table></div>
+<p>The avid reader would wonder at this point, why '::' is mentioned and ',' is not mentioned in the possible tokens list. We observe that the error is after 'Int test', probably much deeper and in a different syntax production than the one that defines each part of a record. With more time I would examine the <code>Action</code> and <code>Goto</code> tables generated by Happy from the extensive definition of the syntax in GHC.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 4 - source</td></tr><tr><td class="lineNumbers"><div class="lineNumbersDiv"><pre>1
+2
+3
+4
+5
+6
+</pre></div></rd><td class="sourceCode"><pre class="code"><span class="source haskell"><span class="keyword other haskell">data</span> <span class="constant other haskell">X</span> <span class="keyword operator haskell">=</span> <span class="constant other haskell">X</span> {
+<span class="meta function type-declaration haskell">    <span class="entity name function haskell">bla</span> <span class="keyword other double-colon haskell">::</span> <span class="storage type haskell">Int</span>
+</span>  <span class="punctuation separator comma haskell">,</span> test <span class="keyword operator haskell">::</span> <span class="constant other haskell">Int</span>
+  } <span class="keyword other haskell">deriving</span>
+
+main <span class="keyword operator haskell">=</span> return <span class="constant language unit haskell">()</span>
+</span></td></pre></tr></tbody></table></div><div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 4 - output</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">example4.hs:6:1:
+    parse error (possibly incorrect indentation or mismatched brackets), possible tokens: &#39;(&#39; CONID QCONID PREFIXQCONSYM
+</span></td></pre></tr></tbody></table></div>
+<p>Here it gets more interesting, because the parser now outputs token identifiers that are not just punctuation or operators, but user-defined identifier strings. These are the same names used when defining the syntax.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 5 - source</td></tr><tr><td class="lineNumbers"><div class="lineNumbersDiv"><pre>1
+</pre></div></rd><td class="sourceCode"><pre class="code"><span class="source haskell">main <span class="keyword operator haskell">=</span> <span class="keyword operator haskell">=</span> return <span class="constant language unit haskell">()</span>
+</span></td></pre></tr></tbody></table></div><div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">example 5 - output</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">example5.hs:1:8:
+    parse error on input, possible tokens: &#39;_&#39; &#39;as&#39; &#39;case&#39; &#39;do&#39; &#39;hiding&#39; &#39;if&#39; &#39;let&#39; &#39;qualified&#39; &#39;forall&#39; &#39;export&#39; &#39;label&#39; &#39;dynamic&#39; &#39;safe&#39; &#39;interruptible&#39; &#39;unsafe&#39; &#39;mdo&#39; &#39;family&#39; &#39;role&#39; &#39;stdcall&#39; &#39;ccall&#39; &#39;capi&#39; &#39;prim&#39; &#39;javascript&#39; &#39;proc&#39; &#39;group&#39; &#39;static&#39; &#39;{-# CORE&#39; &#39;{-# SCC&#39; &#39;{-# GENERATED&#39; &#39;\\&#39; &#39;~&#39; &#39;-&#39; &#39;[&#39; &#39;[:&#39; &#39;(&#39; &#39;(#&#39; &#39;(|&#39; SIMPLEQUOTE VARID CONID QVARID QCONID PREFIXQVARSYM PREFIXQCONSYM IPDUPVARID CHAR STRING INTEGER RATIONAL PRIMCHAR PRIMSTRING PRIMINTEGER PRIMWORD PRIMFLOAT PRIMDOUBLE &#39;[|&#39; &#39;[p|&#39; &#39;[t|&#39; &#39;[d|&#39; &#39;[||&#39; TH_ID_SPLICE &#39;$(&#39; TH_ID_TY_SPLICE &#39;$$(&#39; TH_TY_QUOTE TH_QUASIQUOTE TH_QQUASIQUOTE ‘=’
+
+</span></td></pre></tr></tbody></table></div>
+<p>Obviously, there are many things that could come instead of the second <code>=</code>. Perhaps it would require some community debate regarding how to present this behemoth list of possible tokens to the user in this case.</p>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <div class="post-footer">
+        
+            
+                <div class="post-tags">
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;haskell&#x2F;">#Haskell</a>
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;ghc&#x2F;">#GHC</a>
+                    
+                </div>
+            
+            
+                <div class="post-nav">
+                    
+                        <a class="previous" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;build-maneuverings-with-external-linux-kernel-modules&#x2F;">‹ Build Maneuverings with External Linux Kernel Modules</a>
+                    
+                    
+                        <a class="next" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;st-monad-perf-with-exceptions&#x2F;">Performance of the ST Monad with Pure Exceptions ›</a>
+                    
+                    
+                    
+                </div>
+            
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+
+                </div>
+            </main>
+
+            
+            
+        </div>
+
+      
+          <script type="text/javascript" src="https:&#x2F;&#x2F;blog.aloni.org&#x2F;even.js" ></script>
+      
+
+      
+      
+      <hr />
+      <div style="text-align: center">
+	  © 2010-2020, Dan Aloni <a href="mailto:alonid@gmail.com">✉</a>
+      </div>
+      
+      
+    </body>
+
+</html>

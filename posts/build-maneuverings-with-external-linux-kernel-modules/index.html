@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      
+	  <!-- Global site tag (gtag.js) - Google Analytics -->
+	  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35403825-1"></script>
+	  <script>
+	    window.dataLayer = window.dataLayer || [];
+	    function gtag(){dataLayer.push(arguments);}
+	    gtag('js', new Date());
+
+            gtag('config', 'UA-35403825-1');
+	  </script>
+      
+
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title> - Build Maneuverings with External Linux Kernel Modules</title>
+
+      
+
+      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/mathtex-script-type.min.js" integrity="sha384-zWYbd0NBwgTsgIdFKVprSfTh1mbMPe5Hz1X3yY4Sd1h/K1cQoUe36OGwAGz/PcDy" crossorigin="anonymous"></script>
+              
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+                  onload="renderMathInElement(document.body);"></script>
+              
+          
+      
+
+      
+          <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;site.css">
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+          
+      
+
+      
+      
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div id="mobile-navbar" class="mobile-navbar">
+              <div class="mobile-header-logo">
+                <a href="/" class="logo">Dan Aloni&#x27;s blog</a>
+              </div>
+              <div class="mobile-navbar-icon icon-out">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+              <ul class="mobile-menu-list">
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                            Home
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                            Tags
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                            About
+                        </a>
+                    </li>
+                
+		<li class="mobile-menu-item">
+		
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+  	        </li>
+              </ul>
+            </nav>
+
+            <header id="header">
+                <div class="logo">
+		    <a href="https:&#x2F;&#x2F;blog.aloni.org">Dan Aloni&#x27;s blog</a><br>
+		    
+    
+    <a href="https://github.com/da-x">
+	<img src="/images/icon-github.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://linkedin.com/in/aloni">
+	<img src="/images/icon-linkedin.svg" width="24" height="24" />
+    </a>
+    
+    
+    <a href="https://twitter.com/DanAloni">
+	<img src="/images/icon-twitter.svg" width="24" height="24" />
+    </a>
+    
+
+		</div>
+                <nav class="menu">
+                    <ul>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org">
+                                    Home
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;categories">
+                                    Categories
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags">
+                                    Tags
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;about">
+                                    About
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <div class="content" id="mobile-panel">
+                    
+
+
+
+<article class="post">
+    
+    
+
+    
+    <header class="post__header">
+	
+        <h1>
+            <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;build-maneuverings-with-external-linux-kernel-modules&#x2F;">Build Maneuverings with External Linux Kernel Modules</a>
+        </h1>
+	
+        <div class="post__meta">
+            <span class="post__time">2014-12-12</span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+      <p>Much of the material relating to writing <a href="http://en.wikipedia.org/wiki/Linux_kernel">Linux kernel</a> modules does not discuss the scenario where you would like to replace existing kernel code or a driver with a wrapping interface, or a whole new implementation of the same component, or another scenario where you have one external kernel module that depends on another. Our Linux kernel is a standalone component and it doesn't like these sort of tricks, but its build system is advanced enough to allow to implement them cleanly.</p>
+<span id="continue-reading"></span><h2 id="first-just-a-plain-old-module">First, just a plain-old module</h2>
+<p>To demonstrate the topics I am about to discuss, let's create a simple kernel module that we can work with:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">foo/Makefile</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source makefile"><span class="variable other makefile">foo-objs</span> <span class="keyword operator assignment makefile">+=</span></span> <span class="source makefile"><span class="meta string makefile"><span class="string unquoted makefile">foo-main.o</span></span>
+<span class="variable other makefile">obj-m</span> <span class="keyword operator assignment makefile">+=</span> <span class="meta string makefile"><span class="string unquoted makefile">foo.o</span></span>
+</span></td></pre></tr></tbody></table></div>
+<p>The following .gitignore file can be used:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">.gitignore</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">*.o
+*.mod.o
+*.ko
+.*
+modules.order
+Module.symvers
+</span></td></pre></tr></tbody></table></div>
+<p>The C file can be very minimal for now:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">foo/foo-main.c</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source c"><span class="meta preprocessor include c"><span class="keyword control import include c">#include</span> <span class="string quoted other lt-gt include c"><span class="punctuation definition string begin c">&lt;</span>linux/kernel.h<span class="punctuation definition string end c">&gt;</span></span>
+</span>
+<span class="storage type c">void</span> <span class="meta function c"><span class="entity name function c">foo_export</span></span><span class="meta function parameters c"><span class="meta group c"><span class="punctuation section group begin c">(</span></span></span><span class="meta function parameters c"><span class="meta group c"><span class="storage type c">void</span><span class="punctuation section group end c">)</span></span></span><span class="meta function c">
+</span><span class="meta function c"><span class="meta block c"><span class="punctuation section block begin c">{</span></span></span><span class="meta function c"><span class="meta block c">
+	<span class="meta function-call c"><span class="variable function c">printk</span><span class="meta group c"><span class="punctuation section group begin c">(</span></span></span><span class="meta function-call c"><span class="meta group c">KERN_DEBUG <span class="string quoted double c"><span class="punctuation definition string begin c">&quot;</span>foo_export called<span class="constant character escape c">\n</span><span class="punctuation definition string end c">&quot;</span></span></span></span><span class="meta function-call c"><span class="meta group c"><span class="punctuation section group end c">)</span></span></span><span class="punctuation terminator c">;</span>
+</span></span><span class="meta function c"><span class="meta block c"><span class="punctuation section block end c">}</span></span></span>
+<span class="meta function-call c"><span class="variable function c">EXPORT_SYMBOL</span><span class="meta group c"><span class="punctuation section group begin c">(</span></span></span><span class="meta function-call c"><span class="meta group c">foo_export</span><span class="meta group c"><span class="punctuation section group end c">)</span></span></span><span class="punctuation terminator c">;</span>
+</span></td></pre></tr></tbody></table></div>
+<p>Building it for the currently running kernel is quite simple:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ make -C /lib/modules/`uname -r`/source M=`pwd`/foo
+make: Entering directory `/usr/src/kernels/3.17.3-200.fc20.x86_64&#39;
+  CC [M]  /home/dan/module/foo/foo-main.o
+  LD [M]  /home/dan/module/foo/foo.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  LD [M]  /home/dan/module/foo/foo.ko
+make: Leaving directory `/usr/src/kernels/3.17.3-200.fc20.x86_64&#39;
+</span></td></pre></tr></tbody></table></div>
+<p>We should be able to load it via <code>insmod foo/foo.ko</code>. But, since the module does not do anything, and does not register on any subsystem, it is effectively just a library. A novice reader can add call to <code>foo_export</code> on module init. For now we will continue to focus on the building scriptology in this post.</p>
+<h2 id="prepare-for-external-access">Prepare for external access</h2>
+<p>We would like for another module to use our kernel code. But first, we need to export it via the standard C means, because <code>EXPORT_MODULE</code> is not enough - this just tells the kernel that it is okay to link against <code>foo_export</code> in module load time.</p>
+<p>So we add this header under <code>foo/include</code>:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">foo/include/foo/foo.h</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source c"><span class="meta preprocessor c"><span class="keyword control import c">#ifndef</span> __FOO_MAIN_H__
+</span><span class="meta preprocessor macro c"><span class="keyword control import define c">#define</span></span><span class="meta preprocessor macro c"> <span class="entity name constant preprocessor c">__FOO_MAIN_H__</span></span>
+
+<span class="storage type c">void</span> <span class="meta function c"><span class="entity name function c">foo_export</span></span><span class="meta function parameters c"><span class="meta group c"><span class="punctuation section group begin c">(</span></span></span><span class="meta function parameters c"><span class="meta group c"><span class="storage type c">void</span><span class="punctuation section group end c">)</span></span></span><span class="punctuation terminator c">;</span>
+
+<span class="meta preprocessor c"><span class="keyword control import c">#endif</span></span>
+</span></td></pre></tr></tbody></table></div>
+<p>We could have added a <code>foo.h</code> directly under <code>foo</code>, but that is not good because we would like to separate the interface from implementation. We expect other users to include the location of the header file via <code>-I</code>. Let's take care of our internal user <code>foo-main.c</code> too, by modifying the Makefile:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">foo/Makefile</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source makefile"><span class="meta group makefile"><span class="keyword control conditional makefile">ifneq</span> <span class="punctuation section group begin makefile">(</span><span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>LINUXINCLUDE<span class="keyword other block end makefile">}</span></span><span class="punctuation separator makefile">,</span><span class="punctuation section group end makefile">)</span></span>
+<span class="comment line number-sign makefile"><span class="punctuation definition comment makefile">#</span> If we being invoked from kbuild, prepend the proper include paths
+</span><span class="variable other makefile">LINUXINCLUDE</span> <span class="keyword operator assignment makefile">:=</span> <span class="meta string makefile"><span class="string unquoted makefile"><span class="punctuation separator continuation line makefile">\</span>
+        -I<span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>M<span class="keyword other block end makefile">}</span></span>/include <span class="punctuation separator continuation line makefile">\</span>
+        <span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>LINUXINCLUDE<span class="keyword other block end makefile">}</span></span></span></span>
+<span class="keyword control conditional makefile">endif</span>
+
+<span class="variable other makefile">foo-objs</span> <span class="keyword operator assignment makefile">+=</span> <span class="meta string makefile"><span class="string unquoted makefile">foo-main.o</span></span>
+<span class="variable other makefile">obj-m</span> <span class="keyword operator assignment makefile">+=</span> <span class="meta string makefile"><span class="string unquoted makefile">foo.o</span></span>
+</span></td></pre></tr></tbody></table></div>
+<p>We can now proceed to also add <code>#include &lt;foo/foo.h&gt;</code> in <code>foo-main.c</code>.</p>
+<p><strong>NOTE:</strong> The <code>LINUXINCLUDE</code> directive in kbuild is very useful - it allows to insert new include paths before or after other paths or the kernel headers themselves. Here, we needed abstraction for our private module include paths. The module's code is now agnostic to where headers are located, which is a good preparation for any future point in time where the headers might move, and perhaps these headers can move into the kernel itself if our kernel code is really dandy and useful - who knows.</p>
+<h2 id="a-second-dependent-kernel-module">A second, dependent kernel module</h2>
+<p>Similarly to <code>foo</code>, we have created <code>bar</code>. However, in bar we insert a run-time dependency over foo:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">bar/bar-main.c</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source c"><span class="meta preprocessor include c"><span class="keyword control import include c">#include</span> <span class="string quoted other lt-gt include c"><span class="punctuation definition string begin c">&lt;</span>linux/kernel.h<span class="punctuation definition string end c">&gt;</span></span>
+</span><span class="meta preprocessor include c"><span class="keyword control import include c">#include</span> <span class="string quoted other lt-gt include c"><span class="punctuation definition string begin c">&lt;</span>bar/bar.h<span class="punctuation definition string end c">&gt;</span></span>
+</span><span class="meta preprocessor include c"><span class="keyword control import include c">#include</span> <span class="string quoted other lt-gt include c"><span class="punctuation definition string begin c">&lt;</span>foo/foo.h<span class="punctuation definition string end c">&gt;</span></span>
+</span>
+<span class="storage type c">void</span> <span class="meta function c"><span class="entity name function c">bar_export</span></span><span class="meta function parameters c"><span class="meta group c"><span class="punctuation section group begin c">(</span></span></span><span class="meta function parameters c"><span class="meta group c"><span class="storage type c">void</span><span class="punctuation section group end c">)</span></span></span><span class="meta function c">
+</span><span class="meta function c"><span class="meta block c"><span class="punctuation section block begin c">{</span></span></span><span class="meta function c"><span class="meta block c">
+	<span class="meta function-call c"><span class="variable function c">foo_export</span><span class="meta group c"><span class="punctuation section group begin c">(</span></span></span><span class="meta function-call c"></span><span class="meta function-call c"><span class="meta group c"><span class="punctuation section group end c">)</span></span></span><span class="punctuation terminator c">;</span>
+	<span class="meta function-call c"><span class="variable function c">printk</span><span class="meta group c"><span class="punctuation section group begin c">(</span></span></span><span class="meta function-call c"><span class="meta group c">KERN_DEBUG <span class="string quoted double c"><span class="punctuation definition string begin c">&quot;</span>bar_export called<span class="constant character escape c">\n</span><span class="punctuation definition string end c">&quot;</span></span></span></span><span class="meta function-call c"><span class="meta group c"><span class="punctuation section group end c">)</span></span></span><span class="punctuation terminator c">;</span>
+</span></span><span class="meta function c"><span class="meta block c"><span class="punctuation section block end c">}</span></span></span>
+<span class="meta function-call c"><span class="variable function c">EXPORT_SYMBOL</span><span class="meta group c"><span class="punctuation section group begin c">(</span></span></span><span class="meta function-call c"><span class="meta group c">bar_export</span><span class="meta group c"><span class="punctuation section group end c">)</span></span></span><span class="punctuation terminator c">;</span>
+</span></td></pre></tr></tbody></table></div>
+<p>But we would like to avoid the following error:</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">/home/dan/test/bar/bar-main.c:2:21: fatal error: foo/foo.h: No such file or directory #include &lt;foo/foo.h&gt;
+</span></td></pre></tr></tbody></table></div>
+<p>Let's take the first step. We need to depend on <code>foo</code> in <code>bar</code>. If we would like to be completely flexible, we can support the modes where <code>foo</code> arrives from the kernel itself or from another external kernel module.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">bar/Makefile</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source makefile"><span class="meta group makefile"><span class="keyword control conditional makefile">ifneq</span> <span class="punctuation section group begin makefile">(</span><span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>FOO_PATH<span class="keyword other block end makefile">}</span></span><span class="punctuation separator makefile">,</span><span class="punctuation section group end makefile">)</span></span>
+<span class="variable other makefile">FOO_INCLUDE</span><span class="keyword operator assignment makefile">=</span><span class="meta string makefile"><span class="string unquoted makefile">-I<span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>FOO_PATH<span class="keyword other block end makefile">}</span></span>/include</span></span>
+<span class="keyword control conditional makefile">endif</span>
+
+<span class="meta group makefile"><span class="keyword control conditional makefile">ifneq</span> <span class="punctuation section group begin makefile">(</span><span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>LINUXINCLUDE<span class="keyword other block end makefile">}</span></span><span class="punctuation separator makefile">,</span><span class="punctuation section group end makefile">)</span></span>
+<span class="comment line number-sign makefile"><span class="punctuation definition comment makefile">#</span> If we being invoked from kbuild, prepend the proper include paths
+</span><span class="variable other makefile">LINUXINCLUDE</span> <span class="keyword operator assignment makefile">:=</span> <span class="meta string makefile"><span class="string unquoted makefile"><span class="punctuation separator continuation line makefile">\</span>
+        -I<span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>M<span class="keyword other block end makefile">}</span></span>/include <span class="punctuation separator continuation line makefile">\</span>
+        <span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>FOO_INCLUDE<span class="keyword other block end makefile">}</span></span> <span class="punctuation separator continuation line makefile">\</span>
+        <span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>LINUXINCLUDE<span class="keyword other block end makefile">}</span></span></span></span>
+<span class="keyword control conditional makefile">endif</span>
+
+<span class="variable other makefile">bar-objs</span> <span class="keyword operator assignment makefile">+=</span> <span class="meta string makefile"><span class="string unquoted makefile">bar-main.o</span></span>
+<span class="variable other makefile">obj-m</span> <span class="keyword operator assignment makefile">+=</span> <span class="meta string makefile"><span class="string unquoted makefile">bar.o</span></span>
+</span></td></pre></tr></tbody></table></div>
+<p>By adding <code>foo</code> to <code>LINUXINCLUDE</code> we can now have a working build, if we point <code>FOO_PATH</code> to the correct place when building <code>bar</code>.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">make -C /lib/modules/`uname -r`/source M=`pwd`/bar FOO_PATH=`pwd`/foo
+</span></td></pre></tr></tbody></table></div>
+<p>But is it not over yet, because we get an error from <code>modpost</code> (although the build is successful):</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">WARNING: &quot;foo_export&quot; [/home/dan/test/bar/bar.ko] undefined!
+</span></td></pre></tr></tbody></table></div>
+<p>The kernel keeps track of which modules are exported by which binary code. By default the program <code>modpost</code> that runs during the build process performs a lookup on all undefined symbols via the kernel's own <code>Module.symvers</code> located under <code>/lib/modules</code> in our case. <code>foo</code> is not there. Let's extend our kernel module's Makefile. Luckily we can pass <code>KBUILD_EXTRA_SYMBOLS</code> to kbuild, but it is ineffectual to do so from within the Makefile itself when it is invoked by kbuild.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="codeTitle" colspan="2">bar/Makefile</td></tr><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="source makefile"><span class="meta group makefile"><span class="keyword control conditional makefile">ifneq</span> <span class="punctuation section group begin makefile">(</span><span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>LINUXINCLUDE<span class="keyword other block end makefile">}</span></span><span class="punctuation separator makefile">,</span><span class="punctuation section group end makefile">)</span></span>
+<span class="comment line number-sign makefile"><span class="punctuation definition comment makefile">#</span> If we being invoked from kbuild, prepend the proper include paths
+</span><span class="meta group makefile"><span class="keyword control conditional makefile">ifneq</span> <span class="punctuation section group begin makefile">(</span><span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>FOO_PATH<span class="keyword other block end makefile">}</span></span><span class="punctuation separator makefile">,</span><span class="punctuation section group end makefile">)</span></span>
+<span class="variable other makefile">FOO_INCLUDE</span><span class="keyword operator assignment makefile">=</span><span class="meta string makefile"><span class="string unquoted makefile">-I<span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>FOO_PATH<span class="keyword other block end makefile">}</span></span>/include</span></span>
+<span class="keyword control conditional makefile">endif</span>
+<span class="variable other makefile">LINUXINCLUDE</span> <span class="keyword operator assignment makefile">:=</span> <span class="meta string makefile"><span class="string unquoted makefile"><span class="punctuation separator continuation line makefile">\</span>
+        -I<span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>M<span class="keyword other block end makefile">}</span></span>/include <span class="punctuation separator continuation line makefile">\</span>
+        <span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>FOO_INCLUDE<span class="keyword other block end makefile">}</span></span> <span class="punctuation separator continuation line makefile">\</span>
+        <span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>LINUXINCLUDE<span class="keyword other block end makefile">}</span></span></span></span>
+<span class="keyword control conditional makefile">else</span>
+<span class="keyword control makefile">export</span><span class="variable other makefile"> FOO_PATH</span>
+<span class="keyword control makefile">export</span><span class="variable other makefile"> KBUILD_EXTRA_SYMBOLS<span class="keyword operator assignment makefile">=</span></span><span class="meta string makefile"><span class="string unquoted makefile"><span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>FOO_PATH<span class="keyword other block end makefile">}</span></span>/Module.symvers</span></span>
+<span class="meta function makefile"><span class="entity name function makefile">all</span></span><span class="keyword operator assignment makefile">:</span>
+<span class="meta function arguments makefile"></span><span class="meta function body makefile"></span><span class="meta function body makefile">	<span class="source shell"><span class="meta function-call shell"><span class="variable function shell">make</span></span><span class="meta function-call arguments shell"><span class="variable parameter option shell"><span class="punctuation definition parameter shell"> -</span>C</span> <span class="variable parameter makefile"><span class="keyword other block begin makefile">${</span>KDIR<span class="keyword other block end makefile">}</span></span> M=<span class="keyword other block begin makefile">$(</span><span class="support function builtin makefile">shell</span> <span class="source shell"><span class="meta function-call shell"><span class="variable function shell">pwd</span></span></span><span class="keyword other block end makefile">)</span></span></span>
+<span class="keyword control conditional makefile">endif</span>
+
+</span><span class="variable other makefile">bar-objs</span> <span class="keyword operator assignment makefile">+=</span> <span class="meta string makefile"><span class="string unquoted makefile">bar-main.o</span></span>
+<span class="variable other makefile">obj-m</span> <span class="keyword operator assignment makefile">+=</span> <span class="meta string makefile"><span class="string unquoted makefile">bar.o</span></span>
+</span></td></pre></tr></tbody></table></div>
+<p>In order to not make the command line any longer, we have inserted a proxy target 'all'. Also, <code>KBUILD_EXTRA_SYMBOLS</code> and <code>FOO_PATH</code> are forwarded to kbuild, and <code>KDIR</code> receives the path of the kernel tree from the top level invocation.</p>
+<div class="mycode-block"><table class="codeBox"><tbody><tr><td class="sourceCode sourceCodeWrap"><pre class="code"><span class="text plain">$ make -C bar KDIR=/lib/modules/`uname -r`/source FOO_PATH=`pwd`/foo
+make: Entering directory `/home/dan/test/bar&#39;
+make -C /lib/modules/3.17.3-200.fc20.x86_64/source M=/home/dan/test/bar
+make[1]: Entering directory `/usr/src/kernels/3.17.3-200.fc20.x86_64&#39;
+  LD      /home/dan/test/bar/built-in.o
+  CC [M]  /home/dan/test/bar/bar-main.o
+  LD [M]  /home/dan/test/bar/bar.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /home/dan/test/bar/bar.mod.o
+  LD [M]  /home/dan/test/bar/bar.ko
+make[1]: Leaving directory `/usr/src/kernels/3.17.3-200.fc20.x86_64&#39;
+make: Leaving directory `/home/dan/test/bar&#39;
+</span></td></pre></tr></tbody></table></div>
+<p>There are several things consider. <code>foo</code> must already be built when <code>bar</code> is built, otherwise <code>foo</code>'s <code>Module.symvers</code> is missing, and you would get a warning. The other thing to keep in mind is that the Makefile is evaluated twice - once in our direct execution and a second time when kbuild evaluates it. The current directory (`pwd`) in the second evaluation is the kernel tree, and it already contains a lots of useful bits such as <code>LINUXINCLUDE</code>. We should be careful about kbuild's own evaluation so that we don't accidentally override stuff that we did not intend or insert makefile targets that don't belong under the kbuild environment.</p>
+<h1 id="careful-replacement">Careful replacement</h1>
+<p>Note that the use of <code>LINUXINCLUDE</code> to replace existing kernel headers should be used with care. It is powerful enough to allow re-packaging of whole stacks of code that overlap with existing kernel software stack. Some kernel subsystems are spreading their headers over paths that don't necessarily start with <code>linux/</code>, for example, <code>uapi/linux</code> (user space headers), and <code>asm/</code> (architecture specific headers, actually located under <code>arch/*/include</code>). Ordering of paths when extending <code>LINUXINCLUDE</code> is key in that case.</p>
+<p>One should mind including the proper headers so that the API are validated in compile time and match in run-time. For example, it is possible for an external package X to replace some modular existing kernel subsystem X with modified APIs, but when any other piece of code - user-space and kernel space - tries to compile against X, it should refer to the intended headers.</p>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <div class="post-footer">
+        
+            
+                <div class="post-tags">
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;kernel&#x2F;">#Kernel</a>
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;linux&#x2F;">#Linux</a>
+                    
+                        <a href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;tags&#x2F;c&#x2F;">#C</a>
+                    
+                </div>
+            
+            
+                <div class="post-nav">
+                    
+                        <a class="previous" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;six-principles-of-how-i-write-my-journal&#x2F;">‹ Six Principles of How I Write My Journal</a>
+                    
+                    
+                        <a class="next" href="https:&#x2F;&#x2F;blog.aloni.org&#x2F;posts&#x2F;toward-better-ghc-syntax-errors&#x2F;">Toward Better GHC Syntax Errors ›</a>
+                    
+                    
+                    
+                </div>
+            
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+
+                </div>
+            </main>
+
+            
+            
+        </div>
+
+      
+          <script type="text/javascript" src="https:&#x2F;&#x2F;blog.aloni.org&#x2F;even.js" ></script>
+      
+
+      
+      
+      <hr />
+      <div style="text-align: center">
+	  © 2010-2020, Dan Aloni <a href="mailto:alonid@gmail.com">✉</a>
+      </div>
+      
+      
+    </body>
+
+</html>
